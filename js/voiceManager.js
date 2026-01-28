@@ -155,7 +155,7 @@ class VoiceManager {
             console.log('Speech recognition initialized successfully');
             
             this.recognition.onstart = () => {
-                console.log('Speech recognition started');
+                console.log('Speech recognition started successfully');
                 this.isListening = true;
                 this.updateVoiceStatus('listening');
                 
@@ -181,6 +181,13 @@ class VoiceManager {
                 
                 if (event.results[event.results.length - 1].isFinal) {
                     console.log('Final transcript:', transcript);
+                    
+                    // Clear timeout since we got a result
+                    if (this.speechTimeout) {
+                        clearTimeout(this.speechTimeout);
+                        this.speechTimeout = null;
+                    }
+                    
                     if (transcript.trim().length > 0) {
                         this.processVoiceInput(transcript);
                     } else {
@@ -193,6 +200,12 @@ class VoiceManager {
                 console.error('Speech recognition error:', event.error, event);
                 this.isListening = false;
                 
+                // Clear timeout
+                if (this.speechTimeout) {
+                    clearTimeout(this.speechTimeout);
+                    this.speechTimeout = null;
+                }
+                
                 let errorMessage = '';
                 let shouldRetry = false;
                 
@@ -202,25 +215,26 @@ class VoiceManager {
                         shouldRetry = true;
                         break;
                     case 'audio-capture':
-                        errorMessage = 'Microphone not accessible. Please check your microphone connection.';
+                        errorMessage = 'Microphone not accessible. Please check your microphone.';
                         break;
                     case 'not-allowed':
-                        errorMessage = 'Microphone permission denied. Please allow microphone access and refresh the page.';
+                        errorMessage = 'Microphone permission denied. Please allow microphone access.';
                         break;
                     case 'network':
                         errorMessage = 'Network error. Please check your internet connection.';
                         shouldRetry = true;
                         break;
                     case 'service-not-allowed':
-                        errorMessage = 'Speech service not allowed. Please try again.';
+                        errorMessage = 'Speech service not available. Please try again.';
                         shouldRetry = true;
                         break;
                     case 'aborted':
-                        errorMessage = 'Speech recognition was stopped.';
-                        shouldRetry = true;
-                        break;
+                        // Don't show error for aborted - it's usually intentional
+                        console.log('Speech recognition was aborted');
+                        this.updateVoiceStatus('ready');
+                        return;
                     default:
-                        errorMessage = `Speech recognition error: ${event.error}. Please try again.`;
+                        errorMessage = `Speech error: ${event.error}. Please try again.`;
                         shouldRetry = true;
                 }
                 
@@ -236,6 +250,12 @@ class VoiceManager {
             this.recognition.onend = () => {
                 console.log('Speech recognition ended');
                 this.isListening = false;
+                
+                // Clear timeout
+                if (this.speechTimeout) {
+                    clearTimeout(this.speechTimeout);
+                    this.speechTimeout = null;
+                }
                 
                 // Only update to ready if not in error state
                 if (!this.hasError) {
@@ -267,20 +287,54 @@ class VoiceManager {
     
     // Start voice recognition
     startListening() {
+        console.log('startListening called, current state:', { isListening: this.isListening, hasRecognition: !!this.recognition });
+        
         if (!this.recognition) {
             this.showError('Speech recognition not supported in this browser');
             return false;
         }
         
-        if (this.isListening) {
-            this.stopListening();
-            return false;
-        }
+        // Force stop any existing recognition first
+        this.forceStopRecognition();
         
-        // Reset error state
-        this.hasError = false;
+        // Wait a moment before starting new recognition
+        setTimeout(() => {
+            this.actuallyStartListening();
+        }, 100);
         
+        return true;
+    }
+    
+    // Force stop any existing recognition
+    forceStopRecognition() {
         try {
+            if (this.recognition) {
+                this.recognition.abort();
+                this.recognition.stop();
+            }
+            
+            // Clear any existing timeouts
+            if (this.speechTimeout) {
+                clearTimeout(this.speechTimeout);
+                this.speechTimeout = null;
+            }
+            
+            this.isListening = false;
+            this.hasError = false;
+            
+            console.log('Force stopped existing recognition');
+        } catch (error) {
+            console.log('Error force stopping recognition:', error);
+        }
+    }
+    
+    // Actually start listening (called after cleanup)
+    actuallyStartListening() {
+        try {
+            // Reset error state
+            this.hasError = false;
+            this.clearErrorDisplay();
+            
             // Set language based on current selection
             const config = window.languageManager?.getLanguageConfig(this.currentLanguage);
             if (config && config.speechCode) {
@@ -296,35 +350,48 @@ class VoiceManager {
             
             // Start recognition
             this.recognition.start();
+            this.isListening = true;
             
-            // Set a longer timeout to give user more time to speak
+            // Set a timeout to give user time to speak
             this.speechTimeout = setTimeout(() => {
                 if (this.isListening) {
                     console.log('Speech timeout - stopping recognition');
                     this.stopListening();
-                    this.showRetryableError('Please speak within 10 seconds of pressing the button. Try again!');
+                    this.showRetryableError('Please speak within 8 seconds. Click "Tap to Speak" and try again!');
                 }
-            }, 10000); // 10 seconds timeout
+            }, 8000); // 8 seconds timeout
             
-            return true;
         } catch (error) {
             console.error('Error starting speech recognition:', error);
             this.hasError = true;
+            this.isListening = false;
             this.updateVoiceStatus('error');
             
             if (error.name === 'InvalidStateError') {
-                this.showRetryableError('Speech recognition is busy. Please wait a moment and try again.');
+                // Wait a bit longer and try once more
+                setTimeout(() => {
+                    console.log('Retrying after InvalidStateError...');
+                    this.forceStopRecognition();
+                    setTimeout(() => {
+                        this.actuallyStartListening();
+                    }, 500);
+                }, 200);
             } else {
-                this.showError('Could not start voice recognition: ' + error.message);
+                this.showRetryableError('Could not start voice recognition. Please try again.');
             }
-            return false;
         }
     }
     
     // Stop voice recognition
     stopListening() {
-        if (this.recognition && this.isListening) {
-            this.recognition.stop();
+        console.log('stopListening called');
+        
+        try {
+            if (this.recognition && this.isListening) {
+                this.recognition.stop();
+            }
+        } catch (error) {
+            console.log('Error stopping recognition:', error);
         }
         
         // Clear timeout
@@ -396,6 +463,8 @@ class VoiceManager {
     processVoiceInput(transcript) {
         if (!transcript.trim()) return;
         
+        console.log('Processing voice input:', transcript);
+        
         // Update UI with transcript
         this.updateTranscript(transcript, false);
         
@@ -403,51 +472,125 @@ class VoiceManager {
         this.handleVoiceCommand(transcript);
     }
     
-    // Handle voice commands
+    // Handle voice commands - SIMPLIFIED VERSION
     handleVoiceCommand(transcript) {
         const lowerTranscript = transcript.toLowerCase();
         
-        // Price inquiry patterns
-        const pricePatterns = [
-            /(?:what|whats|tell me|show me).*price.*(?:of|for)\s+(\w+)/i,
-            /(\w+).*(?:price|cost|rate|bhav|daam)/i,
-            /(?:price|cost|rate|bhav|daam).*(?:of|for)\s+(\w+)/i,
-            /(\w+)\s*(?:ka|ki|ke)\s*(?:price|bhav|daam|rate)/i
-        ];
+        console.log('Handling voice command:', lowerTranscript);
         
+        // Simple product detection
         let product = null;
-        for (const pattern of pricePatterns) {
-            const match = transcript.match(pattern);
-            if (match) {
-                product = match[1];
-                break;
+        const products = {
+            'tomato': ['tomato', 'tamatar', 'टमाटर'],
+            'onion': ['onion', 'pyaz', 'प्याज'],
+            'potato': ['potato', 'aloo', 'आलू'],
+            'rice': ['rice', 'chawal', 'चावल'],
+            'wheat': ['wheat', 'gehun', 'गेहूं']
+        };
+        
+        // Find product in transcript
+        for (const [productName, keywords] of Object.entries(products)) {
+            for (const keyword of keywords) {
+                if (lowerTranscript.includes(keyword)) {
+                    product = productName;
+                    break;
+                }
             }
+            if (product) break;
         }
         
         if (product) {
+            console.log('Product detected:', product);
             this.handlePriceInquiry(product, transcript);
         } else {
-            // General response
+            console.log('No product detected, giving general response');
             this.generateResponse(transcript);
         }
     }
     
-    // Handle price inquiry
+    // Handle price inquiry - SIMPLIFIED VERSION
     handlePriceInquiry(product, originalTranscript) {
-        // Simulate price data (in real app, this would fetch from API)
-        const priceData = this.generatePriceData(product);
+        console.log('Handling price inquiry for:', product);
+        
+        // Generate simple price data
+        const priceData = this.generateSimplePriceData(product);
         
         // Generate response text
-        const responseText = this.generatePriceResponse(product, priceData);
+        const responseText = this.generateSimplePriceResponse(product, priceData);
         
-        // Update UI with price information
-        this.displayPriceResults(product, priceData, responseText);
+        // Display results
+        this.displaySimplePriceResults(product, priceData, responseText);
         
         // Speak the response
         this.speak(responseText);
         
         // Store in history
         this.addToHistory(originalTranscript, responseText, product);
+        
+        console.log('Price inquiry completed for:', product);
+    }
+    
+    // Generate simple price data
+    generateSimplePriceData(product) {
+        const basePrice = Math.floor(Math.random() * 40) + 20; // 20-60 range
+        return {
+            product: product,
+            minPrice: basePrice - 5,
+            fairPrice: basePrice,
+            maxPrice: basePrice + 8,
+            trend: Math.random() > 0.5 ? 'rising' : 'falling',
+            unit: 'kg'
+        };
+    }
+    
+    // Generate simple price response text
+    generateSimplePriceResponse(product, priceData) {
+        const lang = window.languageManager?.getCurrentLanguage() || 'english';
+        
+        if (lang === 'hindi') {
+            return `${product} का आज का भाव ${priceData.fairPrice} रुपये प्रति किलो है। न्यूनतम ${priceData.minPrice} और अधिकतम ${priceData.maxPrice} रुपये है।`;
+        } else {
+            return `Today's ${product} price is ₹${priceData.fairPrice} per kg. Price ranges from ₹${priceData.minPrice} to ₹${priceData.maxPrice}.`;
+        }
+    }
+    
+    // Display simple price results
+    displaySimplePriceResults(product, priceData, responseText) {
+        console.log('Displaying price results for:', product);
+        
+        // Update price response display
+        const priceResponse = document.getElementById('priceResponse');
+        if (priceResponse) {
+            priceResponse.innerHTML = `
+                <div class="price-response-content">
+                    <div class="response-header">
+                        <span class="response-icon">💰</span>
+                        <h4 class="response-title">${product.charAt(0).toUpperCase() + product.slice(1)} Price</h4>
+                    </div>
+                    <p class="response-text">${responseText}</p>
+                    <div class="price-details">
+                        <div class="price-item">
+                            <span class="price-label">Fair Price</span>
+                            <span class="price-value">₹${priceData.fairPrice}/kg</span>
+                        </div>
+                        <div class="price-item">
+                            <span class="price-label">Range</span>
+                            <span class="price-value">₹${priceData.minPrice} - ₹${priceData.maxPrice}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+            priceResponse.style.display = 'block';
+        }
+        
+        // Enable replay button
+        const replayBtn = document.getElementById('voiceReplayBtn');
+        if (replayBtn) {
+            replayBtn.disabled = false;
+            this.lastResponse = responseText;
+        }
+        
+        console.log('Price results displayed successfully');
     }
     
     // Generate price data
