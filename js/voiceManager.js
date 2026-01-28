@@ -6,7 +6,7 @@ class VoiceManager {
         this.recognition = null;
         this.synthesis = window.speechSynthesis;
         this.isListening = false;
-        this.currentLanguage = 'english';
+        this.currentLanguage = 'english'; 
         this.voices = [];
         this.lastTranscript = '';
         this.lastResponse = '';
