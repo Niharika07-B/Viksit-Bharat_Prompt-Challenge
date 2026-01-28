@@ -10,6 +10,8 @@ class VoiceManager {
         this.voices = [];
         this.lastTranscript = '';
         this.lastResponse = '';
+        this.hasError = false;
+        this.speechTimeout = null;
         
         this.init();
     }
@@ -35,6 +37,105 @@ class VoiceManager {
         
         // Initialize history display
         this.updateHistoryDisplay();
+        
+        // Check microphone permissions on init
+        this.checkMicrophonePermissions();
+    }
+    
+    // Check microphone permissions
+    async checkMicrophonePermissions() {
+        try {
+            if (navigator.permissions && navigator.permissions.query) {
+                const permission = await navigator.permissions.query({ name: 'microphone' });
+                console.log('Microphone permission status:', permission.state);
+                
+                if (permission.state === 'denied') {
+                    this.showMicrophoneHelp();
+                }
+                
+                // Listen for permission changes
+                permission.onchange = () => {
+                    console.log('Microphone permission changed to:', permission.state);
+                    if (permission.state === 'granted') {
+                        this.clearErrorDisplay();
+                    }
+                };
+            }
+        } catch (error) {
+            console.log('Could not check microphone permissions:', error);
+        }
+    }
+    
+    // Show microphone help
+    showMicrophoneHelp() {
+        const helpDiv = document.createElement('div');
+        helpDiv.style.cssText = `
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            background: white; padding: 2rem; border-radius: 1rem; z-index: 10000;
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 10px 10px -5px rgb(0 0 0 / 0.04);
+            max-width: 400px; text-align: center; border: 2px solid #f59e0b;
+        `;
+        
+        helpDiv.innerHTML = `
+            <div style="font-size: 3rem; margin-bottom: 1rem;">🎤</div>
+            <h3 style="margin: 0 0 1rem 0; color: #d97706;">Microphone Access Needed</h3>
+            <p style="margin: 0 0 1.5rem 0; color: #6b7280; line-height: 1.5;">
+                To use voice features, please allow microphone access when prompted by your browser.
+            </p>
+            <div style="display: flex; gap: 1rem; justify-content: center;">
+                <button onclick="this.parentElement.parentElement.remove()" 
+                        style="padding: 0.5rem 1rem; background: #f3f4f6; border: none; border-radius: 0.5rem; cursor: pointer;">
+                    Close
+                </button>
+                <button onclick="window.voiceManager.requestMicrophoneAccess(); this.parentElement.parentElement.remove();" 
+                        style="padding: 0.5rem 1rem; background: #f59e0b; color: white; border: none; border-radius: 0.5rem; cursor: pointer;">
+                    Try Again
+                </button>
+            </div>
+        `;
+        
+        document.body.appendChild(helpDiv);
+    }
+    
+    // Request microphone access
+    async requestMicrophoneAccess() {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            console.log('Microphone access granted');
+            
+            // Stop the stream immediately as we just needed permission
+            stream.getTracks().forEach(track => track.stop());
+            
+            this.clearErrorDisplay();
+            this.showSuccess('Microphone access granted! You can now use voice features.');
+        } catch (error) {
+            console.error('Microphone access denied:', error);
+            this.showError('Microphone access denied. Please allow microphone access in your browser settings.');
+        }
+    }
+    
+    // Show success message
+    showSuccess(message) {
+        const successDiv = document.createElement('div');
+        successDiv.style.cssText = `
+            position: fixed; top: 20px; right: 20px; z-index: 9999;
+            background: #f0fdf4; color: #16a34a; padding: 1rem; border-radius: 0.5rem;
+            border: 1px solid #bbf7d0; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            max-width: 300px; font-size: 14px; line-height: 1.4;
+        `;
+        successDiv.innerHTML = `
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <span>✅</span>
+                <span>${message}</span>
+            </div>
+        `;
+        document.body.appendChild(successDiv);
+        
+        setTimeout(() => {
+            if (successDiv.parentNode) {
+                successDiv.remove();
+            }
+        }, 3000);
     }
     
     // Setup speech recognition
@@ -43,9 +144,13 @@ class VoiceManager {
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
             this.recognition = new SpeechRecognition();
             
+            // Enhanced configuration for better reliability
             this.recognition.continuous = false;
             this.recognition.interimResults = true;
-            this.recognition.maxAlternatives = 1;
+            this.recognition.maxAlternatives = 3;
+            
+            // Set language with fallback
+            this.recognition.lang = 'en-IN';
             
             console.log('Speech recognition initialized successfully');
             
@@ -53,58 +158,93 @@ class VoiceManager {
                 console.log('Speech recognition started');
                 this.isListening = true;
                 this.updateVoiceStatus('listening');
+                
+                // Clear any previous errors
+                this.clearErrorDisplay();
             };
             
             this.recognition.onresult = (event) => {
                 console.log('Speech recognition result received:', event);
                 let transcript = '';
+                let confidence = 0;
+                
                 for (let i = event.resultIndex; i < event.results.length; i++) {
-                    transcript += event.results[i][0].transcript;
+                    const result = event.results[i];
+                    transcript += result[0].transcript;
+                    confidence = result[0].confidence || 0.5;
                 }
+                
+                console.log('Transcript:', transcript, 'Confidence:', confidence);
                 
                 this.lastTranscript = transcript;
                 this.updateTranscript(transcript, !event.results[event.results.length - 1].isFinal);
                 
                 if (event.results[event.results.length - 1].isFinal) {
                     console.log('Final transcript:', transcript);
-                    this.processVoiceInput(transcript);
+                    if (transcript.trim().length > 0) {
+                        this.processVoiceInput(transcript);
+                    } else {
+                        this.handleEmptyTranscript();
+                    }
                 }
             };
             
             this.recognition.onerror = (event) => {
                 console.error('Speech recognition error:', event.error, event);
                 this.isListening = false;
-                this.updateVoiceStatus('error');
                 
-                let errorMessage = 'Speech recognition error: ';
+                let errorMessage = '';
+                let shouldRetry = false;
+                
                 switch(event.error) {
                     case 'no-speech':
-                        errorMessage += 'No speech detected. Please try again.';
+                        errorMessage = 'No speech detected. Please speak clearly and try again.';
+                        shouldRetry = true;
                         break;
                     case 'audio-capture':
-                        errorMessage += 'Microphone not accessible. Please check permissions.';
+                        errorMessage = 'Microphone not accessible. Please check your microphone connection.';
                         break;
                     case 'not-allowed':
-                        errorMessage += 'Microphone permission denied. Please allow microphone access.';
+                        errorMessage = 'Microphone permission denied. Please allow microphone access and refresh the page.';
                         break;
                     case 'network':
-                        errorMessage += 'Network error. Please check your connection.';
+                        errorMessage = 'Network error. Please check your internet connection.';
+                        shouldRetry = true;
+                        break;
+                    case 'service-not-allowed':
+                        errorMessage = 'Speech service not allowed. Please try again.';
+                        shouldRetry = true;
+                        break;
+                    case 'aborted':
+                        errorMessage = 'Speech recognition was stopped.';
+                        shouldRetry = true;
                         break;
                     default:
-                        errorMessage += event.error;
+                        errorMessage = `Speech recognition error: ${event.error}. Please try again.`;
+                        shouldRetry = true;
                 }
                 
-                this.showError(errorMessage);
+                if (shouldRetry) {
+                    this.updateVoiceStatus('ready');
+                    this.showRetryableError(errorMessage);
+                } else {
+                    this.updateVoiceStatus('error');
+                    this.showError(errorMessage);
+                }
             };
             
             this.recognition.onend = () => {
                 console.log('Speech recognition ended');
                 this.isListening = false;
-                this.updateVoiceStatus('ready');
+                
+                // Only update to ready if not in error state
+                if (!this.hasError) {
+                    this.updateVoiceStatus('ready');
+                }
             };
         } else {
             console.warn('Speech recognition not supported in this browser');
-            this.showError('Speech recognition not supported in this browser');
+            this.showError('Speech recognition not supported in this browser. Please use Chrome, Edge, or Safari.');
         }
     }
     
@@ -137,18 +277,46 @@ class VoiceManager {
             return false;
         }
         
+        // Reset error state
+        this.hasError = false;
+        
         try {
+            // Set language based on current selection
             const config = window.languageManager?.getLanguageConfig(this.currentLanguage);
-            if (config) {
+            if (config && config.speechCode) {
                 this.recognition.lang = config.speechCode;
+            } else {
+                this.recognition.lang = 'en-IN'; // Default fallback
             }
             
             console.log('Starting voice recognition with language:', this.recognition.lang);
+            
+            // Show listening status immediately
+            this.updateVoiceStatus('listening');
+            
+            // Start recognition
             this.recognition.start();
+            
+            // Set a longer timeout to give user more time to speak
+            this.speechTimeout = setTimeout(() => {
+                if (this.isListening) {
+                    console.log('Speech timeout - stopping recognition');
+                    this.stopListening();
+                    this.showRetryableError('Please speak within 10 seconds of pressing the button. Try again!');
+                }
+            }, 10000); // 10 seconds timeout
+            
             return true;
         } catch (error) {
             console.error('Error starting speech recognition:', error);
-            this.showError('Could not start voice recognition: ' + error.message);
+            this.hasError = true;
+            this.updateVoiceStatus('error');
+            
+            if (error.name === 'InvalidStateError') {
+                this.showRetryableError('Speech recognition is busy. Please wait a moment and try again.');
+            } else {
+                this.showError('Could not start voice recognition: ' + error.message);
+            }
             return false;
         }
     }
@@ -158,6 +326,70 @@ class VoiceManager {
         if (this.recognition && this.isListening) {
             this.recognition.stop();
         }
+        
+        // Clear timeout
+        if (this.speechTimeout) {
+            clearTimeout(this.speechTimeout);
+            this.speechTimeout = null;
+        }
+        
+        this.isListening = false;
+    }
+    
+    // Handle empty transcript
+    handleEmptyTranscript() {
+        console.log('Empty transcript received');
+        this.showRetryableError('No speech detected. Please speak clearly and try again.');
+    }
+    
+    // Clear error display
+    clearErrorDisplay() {
+        this.hasError = false;
+        const transcriptElements = document.querySelectorAll('#transcript, #voiceTranscript, .voice-transcript-display');
+        transcriptElements.forEach(element => {
+            const errorMessages = element.querySelectorAll('.error-message');
+            errorMessages.forEach(msg => msg.remove());
+        });
+    }
+    
+    // Show retryable error (less severe)
+    showRetryableError(message) {
+        console.warn('Voice Manager Warning:', message);
+        
+        // Update transcript area with retry message
+        const transcriptElements = document.querySelectorAll('#transcript, #voiceTranscript, .voice-transcript-display');
+        transcriptElements.forEach(element => {
+            element.innerHTML = `
+                <div class="retry-message">
+                    <div class="retry-icon">🎤</div>
+                    <div class="retry-text">${message}</div>
+                    <button class="retry-button" onclick="window.voiceManager.startListening()">Try Again</button>
+                </div>
+            `;
+            element.style.display = 'block';
+        });
+        
+        // Show brief toast
+        const toastDiv = document.createElement('div');
+        toastDiv.style.cssText = `
+            position: fixed; top: 20px; right: 20px; z-index: 9999;
+            background: #fef3c7; color: #d97706; padding: 1rem; border-radius: 0.5rem;
+            border: 1px solid #fcd34d; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            max-width: 300px; font-size: 14px; line-height: 1.4;
+        `;
+        toastDiv.innerHTML = `
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <span>🎤</span>
+                <span>${message}</span>
+            </div>
+        `;
+        document.body.appendChild(toastDiv);
+        
+        setTimeout(() => {
+            if (toastDiv.parentNode) {
+                toastDiv.remove();
+            }
+        }, 3000);
     }
     
     // Process voice input
