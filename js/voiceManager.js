@@ -1,0 +1,566 @@
+// Unified Voice Manager for Viksit Vaani – SwarVyapaar
+// Handles Speech-to-Text, Text-to-Speech, and Language Integration
+
+class VoiceManager {
+    constructor() {
+        this.recognition = null;
+        this.synthesis = window.speechSynthesis;
+        this.isListening = false;
+        this.currentLanguage = 'english';
+        this.voices = [];
+        this.lastTranscript = '';
+        this.lastResponse = '';
+        
+        this.init();
+    }
+    
+    // Initialize voice manager
+    init() {
+        this.setupSpeechRecognition();
+        this.loadVoices();
+        this.setupEventListeners();
+        
+        // Load voices when they become available
+        if (this.synthesis.onvoiceschanged !== undefined) {
+            this.synthesis.onvoiceschanged = () => this.loadVoices();
+        }
+        
+        // Integrate with language manager
+        if (window.languageManager) {
+            window.languageManager.addObserver((language) => {
+                this.setLanguage(language);
+            });
+            this.setLanguage(window.languageManager.getCurrentLanguage());
+        }
+    }
+    
+    // Setup speech recognition
+    setupSpeechRecognition() {
+        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            this.recognition = new SpeechRecognition();
+            
+            this.recognition.continuous = false;
+            this.recognition.interimResults = true;
+            this.recognition.maxAlternatives = 1;
+            
+            this.recognition.onstart = () => {
+                this.isListening = true;
+                this.updateVoiceStatus('listening');
+            };
+            
+            this.recognition.onresult = (event) => {
+                let transcript = '';
+                for (let i = event.resultIndex; i < event.results.length; i++) {
+                    transcript += event.results[i][0].transcript;
+                }
+                
+                this.lastTranscript = transcript;
+                this.updateTranscript(transcript, !event.results[event.results.length - 1].isFinal);
+                
+                if (event.results[event.results.length - 1].isFinal) {
+                    this.processVoiceInput(transcript);
+                }
+            };
+            
+            this.recognition.onerror = (event) => {
+                console.error('Speech recognition error:', event.error);
+                this.isListening = false;
+                this.updateVoiceStatus('error');
+            };
+            
+            this.recognition.onend = () => {
+                this.isListening = false;
+                this.updateVoiceStatus('ready');
+            };
+        } else {
+            console.warn('Speech recognition not supported');
+        }
+    }
+    
+    // Load available voices
+    loadVoices() {
+        this.voices = this.synthesis.getVoices();
+    }
+    
+    // Set current language
+    setLanguage(language) {
+        this.currentLanguage = language;
+        
+        if (this.recognition) {
+            const config = window.languageManager?.getLanguageConfig(language);
+            if (config) {
+                this.recognition.lang = config.speechCode;
+            }
+        }
+    }
+    
+    // Start voice recognition
+    startListening() {
+        if (!this.recognition) {
+            this.showError('Speech recognition not supported in this browser');
+            return false;
+        }
+        
+        if (this.isListening) {
+            this.stopListening();
+            return false;
+        }
+        
+        try {
+            const config = window.languageManager?.getLanguageConfig(this.currentLanguage);
+            if (config) {
+                this.recognition.lang = config.speechCode;
+            }
+            
+            this.recognition.start();
+            return true;
+        } catch (error) {
+            console.error('Error starting speech recognition:', error);
+            this.showError('Could not start voice recognition');
+            return false;
+        }
+    }
+    
+    // Stop voice recognition
+    stopListening() {
+        if (this.recognition && this.isListening) {
+            this.recognition.stop();
+        }
+    }
+    
+    // Process voice input
+    processVoiceInput(transcript) {
+        if (!transcript.trim()) return;
+        
+        // Update UI with transcript
+        this.updateTranscript(transcript, false);
+        
+        // Process the voice command
+        this.handleVoiceCommand(transcript);
+    }
+    
+    // Handle voice commands
+    handleVoiceCommand(transcript) {
+        const lowerTranscript = transcript.toLowerCase();
+        
+        // Price inquiry patterns
+        const pricePatterns = [
+            /(?:what|whats|tell me|show me).*price.*(?:of|for)\s+(\w+)/i,
+            /(\w+).*(?:price|cost|rate|bhav|daam)/i,
+            /(?:price|cost|rate|bhav|daam).*(?:of|for)\s+(\w+)/i,
+            /(\w+)\s*(?:ka|ki|ke)\s*(?:price|bhav|daam|rate)/i
+        ];
+        
+        let product = null;
+        for (const pattern of pricePatterns) {
+            const match = transcript.match(pattern);
+            if (match) {
+                product = match[1];
+                break;
+            }
+        }
+        
+        if (product) {
+            this.handlePriceInquiry(product, transcript);
+        } else {
+            // General response
+            this.generateResponse(transcript);
+        }
+    }
+    
+    // Handle price inquiry
+    handlePriceInquiry(product, originalTranscript) {
+        // Simulate price data (in real app, this would fetch from API)
+        const priceData = this.generatePriceData(product);
+        
+        // Generate response text
+        const responseText = this.generatePriceResponse(product, priceData);
+        
+        // Update UI with price information
+        this.displayPriceResults(product, priceData, responseText);
+        
+        // Speak the response
+        this.speak(responseText);
+        
+        // Store in history
+        this.addToHistory(originalTranscript, responseText, product);
+    }
+    
+    // Generate price data
+    generatePriceData(product) {
+        const basePrice = Math.floor(Math.random() * 50) + 20;
+        return {
+            product: product,
+            minPrice: basePrice - 5,
+            fairPrice: basePrice,
+            maxPrice: basePrice + 10,
+            trend: Math.random() > 0.5 ? 'rising' : 'falling',
+            demand: ['Low', 'Medium', 'High'][Math.floor(Math.random() * 3)],
+            supply: ['Low', 'Medium', 'High'][Math.floor(Math.random() * 3)],
+            season: ['Off-season', 'Peak', 'Normal'][Math.floor(Math.random() * 3)]
+        };
+    }
+    
+    // Generate price response text
+    generatePriceResponse(product, priceData) {
+        const lang = window.languageManager?.getCurrentLanguage() || 'english';
+        
+        if (lang === 'hindi') {
+            return `${product} का भाव ${priceData.minPrice} से ${priceData.maxPrice} रुपये प्रति किलो है। उचित दाम ${priceData.fairPrice} रुपये है। बाजार में मांग ${priceData.demand} है।`;
+        } else if (lang === 'telugu') {
+            return `${product} ధర కిలోకు ${priceData.minPrice} నుండి ${priceData.maxPrice} రూపాయలు. న్యాయమైన ధర ${priceData.fairPrice} రూపాయలు. మార్కెట్‌లో డిమాండ్ ${priceData.demand}.`;
+        } else if (lang === 'tamil') {
+            return `${product} விலை கிலோவுக்கு ${priceData.minPrice} முதல் ${priceData.maxPrice} ரூபாய். நியாயமான விலை ${priceData.fairPrice} ரூபாய். சந்தையில் தேவை ${priceData.demand}.`;
+        } else if (lang === 'kannada') {
+            return `${product} ಬೆಲೆ ಕಿಲೋಗೆ ${priceData.minPrice} ರಿಂದ ${priceData.maxPrice} ರೂಪಾಯಿ. ನ್ಯಾಯಯುತ ಬೆಲೆ ${priceData.fairPrice} ರೂಪಾಯಿ. ಮಾರುಕಟ್ಟೆಯಲ್ಲಿ ಬೇಡಿಕೆ ${priceData.demand}.`;
+        } else if (lang === 'malayalam') {
+            return `${product} വില കിലോയ്ക്ക് ${priceData.minPrice} മുതൽ ${priceData.maxPrice} രൂപ. ന്യായമായ വില ${priceData.fairPrice} രൂപ. വിപണിയിൽ ആവശ്യം ${priceData.demand}.`;
+        } else {
+            return `The price of ${product} ranges from ₹${priceData.minPrice} to ₹${priceData.maxPrice} per kg. Fair price is ₹${priceData.fairPrice}. Market demand is ${priceData.demand}.`;
+        }
+    }
+    
+    // Display price results in UI
+    displayPriceResults(product, priceData, responseText) {
+        // Update price results section
+        const priceResults = document.getElementById('priceResults');
+        const priceResponse = document.getElementById('priceResponse');
+        
+        if (priceResults) {
+            // Update product name
+            const priceProduct = document.getElementById('priceProduct');
+            if (priceProduct) priceProduct.textContent = product.charAt(0).toUpperCase() + product.slice(1);
+            
+            // Update price values
+            const minPriceValue = document.getElementById('minPriceValue');
+            const fairPriceValue = document.getElementById('fairPriceValue');
+            const maxPriceValue = document.getElementById('maxPriceValue');
+            
+            if (minPriceValue) minPriceValue.textContent = `₹${priceData.minPrice}`;
+            if (fairPriceValue) fairPriceValue.textContent = `₹${priceData.fairPrice}`;
+            if (maxPriceValue) maxPriceValue.textContent = `₹${priceData.maxPrice}`;
+            
+            // Update market intelligence
+            const demandLevel = document.getElementById('demandLevel');
+            const supplyLevel = document.getElementById('supplyLevel');
+            const seasonalFactor = document.getElementById('seasonalFactor');
+            
+            if (demandLevel) demandLevel.textContent = priceData.demand;
+            if (supplyLevel) supplyLevel.textContent = priceData.supply;
+            if (seasonalFactor) seasonalFactor.textContent = priceData.season;
+            
+            // Show price results
+            priceResults.style.display = 'block';
+        }
+        
+        // Update voice response display
+        if (priceResponse) {
+            priceResponse.innerHTML = `
+                <div class="price-response-content">
+                    <div class="response-header">
+                        <span class="response-icon">🎤</span>
+                        <h4 class="response-title">Voice Response</h4>
+                    </div>
+                    <p class="response-text">${responseText}</p>
+                    <div class="price-details">
+                        <div class="price-item">
+                            <span class="price-label">Min Price</span>
+                            <span class="price-value">₹${priceData.minPrice}/kg</span>
+                        </div>
+                        <div class="price-item">
+                            <span class="price-label">Fair Price</span>
+                            <span class="price-value">₹${priceData.fairPrice}/kg</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+            priceResponse.style.display = 'block';
+        }
+        
+        // Enable replay button
+        const replayBtn = document.getElementById('voiceReplayBtn');
+        if (replayBtn) {
+            replayBtn.disabled = false;
+            this.lastResponse = responseText;
+        }
+    }
+    
+    // Generate general response
+    generateResponse(transcript) {
+        const lang = window.languageManager?.getCurrentLanguage() || 'english';
+        let response = '';
+        
+        if (lang === 'hindi') {
+            response = 'मैं आपकी मदद करने के लिए यहाँ हूँ। कृपया किसी उत्पाद का नाम बताएं जिसकी कीमत आप जानना चाहते हैं।';
+        } else if (lang === 'telugu') {
+            response = 'నేను మీకు సహాయం చేయడానికి ఇక్కడ ఉన్నాను. దయచేసి మీరు ధర తెలుసుకోవాలనుకుంటున్న ఉత్పత్తి పేరు చెప్పండి.';
+        } else if (lang === 'tamil') {
+            response = 'நான் உங்களுக்கு உதவ இங்கே இருக்கிறேன். தயவுசெய்து நீங்கள் விலை தெரிந்துகொள்ள விரும்பும் பொருளின் பெயரைச் சொல்லுங்கள்.';
+        } else if (lang === 'kannada') {
+            response = 'ನಾನು ನಿಮಗೆ ಸಹಾಯ ಮಾಡಲು ಇಲ್ಲಿದ್ದೇನೆ. ದಯವಿಟ್ಟು ನೀವು ಬೆಲೆ ತಿಳಿದುಕೊಳ್ಳಲು ಬಯಸುವ ಉತ್ಪನ್ನದ ಹೆಸರನ್ನು ಹೇಳಿ.';
+        } else if (lang === 'malayalam') {
+            response = 'നിങ്ങളെ സഹായിക്കാൻ ഞാൻ ഇവിടെയുണ്ട്. ദയവായി നിങ്ങൾ വില അറിയാൻ ആഗ്രഹിക്കുന്ന ഉൽപ്പന്നത്തിന്റെ പേര് പറയുക.';
+        } else {
+            response = 'I\'m here to help you. Please tell me the name of a product you want to know the price for.';
+        }
+        
+        this.speak(response);
+        this.displayGeneralResponse(response);
+    }
+    
+    // Display general response
+    displayGeneralResponse(response) {
+        const priceResponse = document.getElementById('priceResponse');
+        if (priceResponse) {
+            priceResponse.innerHTML = `
+                <div class="response-placeholder">
+                    <div class="response-icon">💬</div>
+                    <p>${response}</p>
+                </div>
+            `;
+        }
+    }
+    
+    // Text-to-speech
+    speak(text) {
+        if (!this.synthesis) return;
+        
+        // Cancel any ongoing speech
+        this.synthesis.cancel();
+        
+        const utterance = new SpeechSynthesisUtterance(text);
+        
+        // Set language-specific voice
+        const config = window.languageManager?.getLanguageConfig(this.currentLanguage);
+        if (config) {
+            utterance.lang = config.voiceCode;
+            
+            // Try to find a voice for the specific language
+            const voice = this.voices.find(v => 
+                v.lang.startsWith(config.code.split('-')[0]) || 
+                v.lang === config.voiceCode
+            );
+            
+            if (voice) {
+                utterance.voice = voice;
+            }
+        }
+        
+        utterance.rate = 0.9;
+        utterance.pitch = 1;
+        utterance.volume = 1;
+        
+        this.synthesis.speak(utterance);
+    }
+    
+    // Replay last response
+    replayLastResponse() {
+        if (this.lastResponse) {
+            this.speak(this.lastResponse);
+        }
+    }
+    
+    // Update transcript display
+    updateTranscript(transcript, isInterim = false) {
+        const transcriptElements = document.querySelectorAll('#transcript, #voiceTranscript, .voice-transcript-display');
+        
+        transcriptElements.forEach(element => {
+            if (transcript.trim()) {
+                element.style.display = 'block';
+                const textElement = element.querySelector('.transcript-text, .transcript-result') || element;
+                
+                if (textElement !== element) {
+                    textElement.textContent = transcript;
+                } else {
+                    element.innerHTML = `
+                        <div class="transcript-label">You said:</div>
+                        <div class="transcript-text">${transcript}</div>
+                    `;
+                }
+                
+                if (isInterim) {
+                    textElement.style.opacity = '0.7';
+                } else {
+                    textElement.style.opacity = '1';
+                }
+            }
+        });
+    }
+    
+    // Update voice status
+    updateVoiceStatus(status) {
+        const statusElements = document.querySelectorAll('#voiceStatus, .voice-status-text');
+        const voiceButtons = document.querySelectorAll('.voice-btn, .voice-main-btn');
+        
+        let statusText = '';
+        let buttonClass = '';
+        
+        switch (status) {
+            case 'listening':
+                statusText = window.languageManager?.translate('listening') || 'Listening...';
+                buttonClass = 'listening';
+                break;
+            case 'processing':
+                statusText = window.languageManager?.translate('processing') || 'Processing...';
+                buttonClass = 'processing';
+                break;
+            case 'error':
+                statusText = window.languageManager?.translate('error') || 'Error occurred';
+                buttonClass = '';
+                break;
+            default:
+                statusText = window.languageManager?.translate('speakNow') || 'Tap to Speak';
+                buttonClass = '';
+        }
+        
+        statusElements.forEach(element => {
+            element.textContent = statusText;
+        });
+        
+        voiceButtons.forEach(button => {
+            button.className = button.className.replace(/\b(listening|processing)\b/g, '');
+            if (buttonClass) {
+                button.classList.add(buttonClass);
+            }
+        });
+    }
+    
+    // Show error message
+    showError(message) {
+        console.error('Voice Manager Error:', message);
+        // You can implement a toast notification here
+    }
+    
+    // Add to search history
+    addToHistory(query, response, product) {
+        try {
+            const history = JSON.parse(localStorage.getItem('voiceSearchHistory') || '[]');
+            const historyItem = {
+                id: Date.now(),
+                query: query,
+                response: response,
+                product: product,
+                timestamp: new Date().toISOString(),
+                language: this.currentLanguage
+            };
+            
+            history.unshift(historyItem);
+            
+            // Keep only last 20 items
+            if (history.length > 20) {
+                history.splice(20);
+            }
+            
+            localStorage.setItem('voiceSearchHistory', JSON.stringify(history));
+            this.updateHistoryDisplay();
+        } catch (e) {
+            console.warn('Could not save to history:', e);
+        }
+    }
+    
+    // Update history display
+    updateHistoryDisplay() {
+        const historyGrid = document.getElementById('historyGrid');
+        if (!historyGrid) return;
+        
+        try {
+            const history = JSON.parse(localStorage.getItem('voiceSearchHistory') || '[]');
+            
+            if (history.length === 0) {
+                historyGrid.innerHTML = `
+                    <div class="history-placeholder">
+                        <div class="placeholder-icon">🎤</div>
+                        <p>No voice searches yet. Try asking about product prices!</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            historyGrid.innerHTML = history.slice(0, 6).map(item => `
+                <div class="history-item" onclick="voiceManager.replayHistoryItem('${item.id}')">
+                    <div class="history-content">
+                        <div class="history-product">${item.product || 'General Query'}</div>
+                        <div class="history-query">"${item.query}"</div>
+                        <div class="history-time">${new Date(item.timestamp).toLocaleString()}</div>
+                    </div>
+                </div>
+            `).join('');
+        } catch (e) {
+            console.warn('Could not load history:', e);
+        }
+    }
+    
+    // Replay history item
+    replayHistoryItem(id) {
+        try {
+            const history = JSON.parse(localStorage.getItem('voiceSearchHistory') || '[]');
+            const item = history.find(h => h.id == id);
+            
+            if (item) {
+                this.speak(item.response);
+                this.updateTranscript(item.query, false);
+            }
+        } catch (e) {
+            console.warn('Could not replay history item:', e);
+        }
+    }
+    
+    // Setup event listeners
+    setupEventListeners() {
+        // Voice buttons
+        document.querySelectorAll('.voice-btn, .voice-main-btn, #voiceBtn, #mainVoiceBtn').forEach(button => {
+            button.addEventListener('click', () => {
+                this.startListening();
+            });
+        });
+        
+        // Replay buttons
+        document.querySelectorAll('#voiceReplayBtn, .voice-replay-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                this.replayLastResponse();
+            });
+        });
+        
+        // Clear results buttons
+        document.querySelectorAll('#clearVoiceResults').forEach(button => {
+            button.addEventListener('click', () => {
+                this.clearResults();
+            });
+        });
+    }
+    
+    // Clear results
+    clearResults() {
+        const priceResults = document.getElementById('priceResults');
+        const priceResponse = document.getElementById('priceResponse');
+        const transcript = document.getElementById('transcript');
+        
+        if (priceResults) priceResults.style.display = 'none';
+        if (priceResponse) {
+            priceResponse.innerHTML = `
+                <div class="response-placeholder">
+                    <div class="response-icon">💬</div>
+                    <p>${window.languageManager?.translate('voiceResponsePlaceholder') || 'Voice and text responses will appear here'}</p>
+                </div>
+            `;
+        }
+        if (transcript) transcript.style.display = 'none';
+        
+        const replayBtn = document.getElementById('voiceReplayBtn');
+        if (replayBtn) replayBtn.disabled = true;
+        
+        this.lastResponse = '';
+        this.lastTranscript = '';
+    }
+}
+
+// Initialize voice manager when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    window.voiceManager = new VoiceManager();
+});
+
+// Export for use in other modules
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = VoiceManager;
+}

@@ -1,0 +1,1322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viksit Vaani – SwarVyapaar | Empowering Bharat's Trade Through Voice & AI</title>
+    <meta name="description" content="The Multilingual Mandi - creating a real-time linguistic bridge for local trade">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon.svg">
+    
+    <!-- Preload critical resources -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+Devanagari:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css">
+    
+    <!-- PWA Meta -->
+    <meta name="theme-color" content="#ff9933">
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+    <!-- Brand Section - Above Header -->
+    <div class="brand-section">
+        <div class="brand-container">
+            <span class="brand-flag">🇮🇳</span>
+            <h1 class="brand-main-title">Viksit Vaani – SwarVyapaar</h1>
+        </div>
+    </div>
+
+    <!-- Modern Clean Header -->
+    <header class="modern-header" id="modernHeader">
+        <div class="header-container">
+            <!-- Center Navigation -->
+            <nav class="header-navigation" id="headerNavigation">
+                <a href="#home" class="nav-btn active" data-translate="home">🏠 Home</a>
+                <a href="#voice-price" class="nav-btn" data-translate="voicePrice">🎤 Voice Price</a>
+                <a href="#vendor-dashboard" class="nav-btn" data-translate="vendorDashboard">🏪 Vendor</a>
+                <a href="#buyer-dashboard" class="nav-btn" data-translate="buyerDashboard">🧑‍💼 Buyer</a>
+                <a href="#price-discovery" class="nav-btn" data-translate="priceDiscovery">📊 Discovery</a>
+                <a href="#voice-negotiation" class="nav-btn" data-translate="voiceNegotiation">💬 Negotiation</a>
+                <a href="#receipts" class="nav-btn" data-translate="receipts">🧾 Receipts</a>
+            </nav>
+            
+            <!-- Right Section - Language & Login -->
+            <div class="header-auth">
+                <!-- Global Language Selector -->
+                <div class="language-selector" id="languageSelector">
+                    <button class="language-btn" id="languageBtn">
+                        <span class="language-icon">🌐</span>
+                        <span class="language-text" id="currentLanguageText">EN</span>
+                        <svg class="language-dropdown-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="6,9 12,15 18,9"></polyline>
+                        </svg>
+                    </button>
+                    <div class="language-dropdown" id="languageDropdown">
+                        <div class="language-option active" data-lang="english" data-code="EN">
+                            <span class="lang-flag">🇺🇸</span>
+                            <span class="lang-name">English</span>
+                        </div>
+                        <div class="language-option" data-lang="telugu" data-code="TE">
+                            <span class="lang-flag">🇮🇳</span>
+                            <span class="lang-name">తెలుగు</span>
+                        </div>
+                        <div class="language-option" data-lang="hindi" data-code="HI">
+                            <span class="lang-flag">🇮🇳</span>
+                            <span class="lang-name">हिंदी</span>
+                        </div>
+                        <div class="language-option" data-lang="kannada" data-code="KN">
+                            <span class="lang-flag">🇮🇳</span>
+                            <span class="lang-name">ಕನ್ನಡ</span>
+                        </div>
+                        <div class="language-option" data-lang="tamil" data-code="TA">
+                            <span class="lang-flag">🇮🇳</span>
+                            <span class="lang-name">தமிழ்</span>
+                        </div>
+                        <div class="language-option" data-lang="malayalam" data-code="ML">
+                            <span class="lang-flag">🇮🇳</span>
+                            <span class="lang-name">മലയാളം</span>
+                        </div>
+                        <div class="language-option" data-lang="tulu" data-code="TU">
+                            <span class="lang-flag">🇮🇳</span>
+                            <span class="lang-name">ತುಳು</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="login-dropdown" id="loginDropdown">
+                    <button class="login-btn" id="loginBtn">
+                        <span>Login</span>
+                        <svg class="dropdown-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="6,9 12,15 18,9"></polyline>
+                        </svg>
+                    </button>
+                    <div class="dropdown-menu" id="dropdownMenu">
+                        <a href="#" class="dropdown-item" id="loginConsumer">
+                            <span class="item-icon">👤</span>
+                            <span>Login as Consumer</span>
+                        </a>
+                        <a href="#" class="dropdown-item" id="loginVendor">
+                            <span class="item-icon">🏪</span>
+                            <span>Login as Seller / Vendor</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Navigation Menu -->
+        <div class="mobile-nav" id="mobileNav">
+            <div class="mobile-nav-content">
+                <a href="#home" class="mobile-nav-item active" data-translate="home">🏠 Home</a>
+                <a href="#voice-price" class="mobile-nav-item" data-translate="voicePrice">🎤 Voice Price</a>
+                <a href="#vendor-dashboard" class="mobile-nav-item" data-translate="vendorDashboard">🏪 Vendor</a>
+                <a href="#buyer-dashboard" class="mobile-nav-item" data-translate="buyerDashboard">🧑‍💼 Buyer</a>
+                <a href="#price-discovery" class="mobile-nav-item" data-translate="priceDiscovery">📊 Discovery</a>
+                <a href="#voice-negotiation" class="mobile-nav-item" data-translate="voiceNegotiation">💬 Negotiation</a>
+                <a href="#receipts" class="mobile-nav-item" data-translate="receipts">🧾 Receipts</a>
+                <div class="mobile-auth">
+                    <button class="mobile-login-btn" id="mobileLoginConsumer">👤 Login as Consumer</button>
+                    <button class="mobile-login-btn" id="mobileLoginVendor">🏪 Login as Seller / Vendor</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Home Section - Landing Page -->
+        <section id="home" class="section active hero-landing">
+            <div class="hero-main">
+                <div class="hero-content">
+                    <!-- Republic Day Badge -->
+                    <div class="republic-badge">
+                        <span class="flag-icon">🇮🇳</span>
+                        <span class="badge-text" data-translate="republicDayGreeting">Celebrating Republic Day 2026 - Viksit Bharat</span>
+                        <span class="flag-icon">✨</span>
+                    </div>
+                    
+                    <!-- Main Title with Maximum Visibility -->
+                    <h1 class="hero-title">
+                        <span class="gradient-text" data-translate="appName">Viksit Vaani – SwarVyapaar</span>
+                    </h1>
+                    
+                    <p class="hero-subtitle" data-translate="tagline">Empowering India's local trade through Voice & AI</p>
+                    <p class="hero-description" data-translate="alternateTagline">Fair price discovery, multilingual negotiation, and digital receipts for local vendors and buyers</p>
+                    
+                    <!-- Key Features Section -->
+                    <div class="key-features-section">
+                        <h2 class="features-title" data-translate="keyFeatures">Key Features</h2>
+                        <div class="features-grid">
+                            <!-- Left Side Features -->
+                            <div class="features-column">
+                                <div class="feature-card">
+                                    <div class="feature-icon">🎤</div>
+                                    <h3 data-translate="multilingualSupport">Multilingual Voice Support</h3>
+                                    <p data-translate="multilingualDesc">Speak in 9 Indian languages - Hindi, Telugu, Tamil, Kannada, Malayalam, Marathi, Odia, Tulu</p>
+                                </div>
+                                <div class="feature-card">
+                                    <div class="feature-icon">📍</div>
+                                    <h3 data-translate="locationPricing">Location-Based Pricing</h3>
+                                    <p data-translate="locationPricingDesc">Real-time price comparison across different markets and locations</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Right Side Features -->
+                            <div class="features-column">
+                                <div class="feature-card">
+                                    <div class="feature-icon">🧾</div>
+                                    <h3 data-translate="digitalReceipts">Digital Receipts</h3>
+                                    <p data-translate="digitalReceiptsDesc">Instant digital receipts with download and sharing options</p>
+                                </div>
+                                <div class="feature-card">
+                                    <div class="feature-icon">🤖</div>
+                                    <h3 data-translate="aiGuidance">AI Price Guidance</h3>
+                                    <p data-translate="aiGuidanceDesc">Smart price recommendations based on market trends and quality</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Smart Market Insights Section -->
+                    <div class="smart-insights-section">
+                        <h2 class="insights-title">Smart Market Insights for Bharat 🇮🇳</h2>
+                        <div class="insights-grid">
+                            <div class="insight-card orange-card">
+                                <div class="card-icon">🇮🇳</div>
+                                <h4>Festival Demand Alerts</h4>
+                                <p>Republic Day is approaching, flower demand may rise</p>
+                            </div>
+                            
+                            <div class="insight-card green-card">
+                                <div class="card-icon">🌦</div>
+                                <h4>Weather Impact Insights</h4>
+                                <p>Understand how weather affects crop prices</p>
+                            </div>
+                            
+                            <div class="insight-card orange-card">
+                                <div class="card-icon">🤝</div>
+                                <h4>Trust & Transparency</h4>
+                                <p>Clear price breakup and fair trade practices</p>
+                            </div>
+                            
+                            <div class="insight-card green-card">
+                                <div class="card-icon">📈</div>
+                                <h4>Market Trend Insights</h4>
+                                <p>Simple up/down indicators for market movements</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- About Section -->
+                    <div class="about-section">
+                        <h2 class="about-title">Empowering India's Local Markets</h2>
+                        <p class="about-description">Connecting farmers, vendors, and buyers across India's vibrant mandi ecosystem through voice-powered technology</p>
+                        
+                        <div class="market-showcase">
+                            <div class="market-item">
+                                <div class="market-icon">🏪</div>
+                                <h4>Local Mandis</h4>
+                                <p>Traditional wholesale markets</p>
+                            </div>
+                            <div class="market-item">
+                                <div class="market-icon">🚚</div>
+                                <h4>Supply Chain</h4>
+                                <p>Farm to market connectivity</p>
+                            </div>
+                            <div class="market-item">
+                                <div class="market-icon">⚖️</div>
+                                <h4>Fair Pricing</h4>
+                                <p>Transparent price discovery</p>
+                            </div>
+                            <div class="market-item">
+                                <div class="market-icon">🌾</div>
+                                <h4>Fresh Produce</h4>
+                                <p>Quality agricultural products</p>
+                            </div>
+                            <div class="market-item">
+                                <div class="market-icon">🤝</div>
+                                <h4>Direct Trade</h4>
+                                <p>Vendor-buyer connections</p>
+                            </div>
+                            <div class="market-item">
+                                <div class="market-icon">📱</div>
+                                <h4>Digital Mandi</h4>
+                                <p>Technology-enabled trading</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Vendor Dashboard Section -->
+        <section id="vendor-dashboard" class="section vendor-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">🏪 Vendor Dashboard</h2>
+                    <p class="section-subtitle">Manage your inventory and view market insights</p>
+                </div>
+                
+                <!-- Location Selection -->
+                <div class="location-selector-card">
+                    <h3>📍 Select Your Location</h3>
+                    <select id="vendorLocationSelect" class="location-select">
+                        <option value="">Choose your location...</option>
+                        <option value="delhi">Delhi</option>
+                        <option value="mumbai">Mumbai</option>
+                        <option value="bangalore">Bangalore</option>
+                        <option value="hyderabad">Hyderabad</option>
+                        <option value="chennai">Chennai</option>
+                        <option value="kolkata">Kolkata</option>
+                        <option value="pune">Pune</option>
+                    </select>
+                </div>
+                
+                <!-- Add Product Form -->
+                <div class="add-product-card">
+                    <h3>➕ Add Product to Inventory</h3>
+                    <form id="addProductForm" class="product-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="productName">Product Name</label>
+                                <input type="text" id="productName" placeholder="e.g., Tomato, Onion" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="productCategory">Category</label>
+                                <select id="productCategory" required>
+                                    <option value="">Select category...</option>
+                                    <option value="vegetables">Vegetables</option>
+                                    <option value="fruits">Fruits</option>
+                                    <option value="grains">Grains</option>
+                                    <option value="spices">Spices</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="productQuantity">Quantity Available (kg)</label>
+                                <input type="number" id="productQuantity" placeholder="100" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="productPrice">Price per Unit (₹/kg)</label>
+                                <input type="number" id="productPrice" placeholder="25" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="productQuality">Quality</label>
+                                <select id="productQuality" required>
+                                    <option value="">Select quality...</option>
+                                    <option value="low">Low</option>
+                                    <option value="medium">Medium</option>
+                                    <option value="high">High</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="add-product-btn">Add Product</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                
+                <!-- Vendor Inventory -->
+                <div class="inventory-card">
+                    <h3>📦 Your Inventory</h3>
+                    <div id="vendorInventory" class="inventory-grid">
+                        <!-- Products will be populated here -->
+                    </div>
+                </div>
+                
+                <!-- Market Awareness -->
+                <div class="market-awareness-card">
+                    <h3>📊 Market Awareness</h3>
+                    <div id="marketComparison" class="market-comparison">
+                        <!-- Market data will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Voice Price Checker Section -->
+        <section id="voice-price" class="section voice-price-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">🎤 Voice Price Checker</h2>
+                    <p class="section-subtitle">Tap to speak and get real mandi prices instantly</p>
+                </div>
+                
+                <!-- Voice Interface Card -->
+                <div class="voice-main-card">
+                    <div class="voice-interface">
+                        <div class="voice-button-container">
+                            <button class="voice-main-btn" id="mainVoiceBtn">
+                                <span class="voice-btn-icon">🎤</span>
+                            </button>
+                            <p class="voice-status-text" id="voiceStatus" data-translate="speakNow">Tap to Speak</p>
+                        </div>
+                        
+                        <!-- Transcript Display -->
+                        <div class="voice-transcript-display" id="voiceTranscript">
+                            <p class="transcript-placeholder" data-translate="voiceInstructions">Say something like "What is the price of tomatoes?" or "टमाटर का भाव क्या है?"</p>
+                        </div>
+                        
+                        <!-- Language Selection -->
+                        <div class="voice-language-selector">
+                            <h4 data-translate="selectLanguage">Select Language:</h4>
+                            <div class="language-buttons">
+                                <button class="lang-btn active" data-lang="english">English</button>
+                                <button class="lang-btn" data-lang="hindi">हिंदी</button>
+                                <button class="lang-btn" data-lang="telugu">తెలుగు</button>
+                                <button class="lang-btn" data-lang="tamil">தமிழ்</button>
+                                <button class="lang-btn" data-lang="kannada">ಕನ್ನಡ</button>
+                                <button class="lang-btn" data-lang="malayalam">മലയാളം</button>
+                                <button class="lang-btn" data-lang="marathi">मराठी</button>
+                                <button class="lang-btn" data-lang="odia">ଓଡ଼ିଆ</button>
+                                <button class="lang-btn" data-lang="tulu">ತುಳು</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Price Response Display -->
+                    <div class="price-response-display" id="priceResponse">
+                        <div class="response-placeholder">
+                            <div class="response-icon">💬</div>
+                            <p data-translate="voiceResponsePlaceholder">Voice and text responses will appear here</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Voice Replay Button -->
+                    <div class="voice-controls">
+                        <button class="voice-replay-btn" id="voiceReplayBtn" disabled>
+                            <span class="replay-icon">🔊</span>
+                            <span data-translate="replayResponse">Replay Response</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Recent Searches -->
+                <div class="recent-searches-card">
+                    <h3 data-translate="recentSearches">Recent Voice Searches</h3>
+                    <div id="historyGrid" class="search-history-grid">
+                        <!-- Search history will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Buyer Dashboard Section -->
+        <section id="buyer-dashboard" class="section buyer-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">🛒 Digital Mandi - Buyer Dashboard</h2>
+                    <p class="section-subtitle">Browse fresh produce from local vendors across India</p>
+                </div>
+                
+                <!-- Search & Filter Bar -->
+                <div class="marketplace-filters">
+                    <div class="filter-row">
+                        <div class="search-group">
+                            <input type="text" id="productSearch" placeholder="Search products..." class="search-input">
+                            <button id="searchProductBtn" class="search-btn">🔍</button>
+                        </div>
+                        <div class="filter-group">
+                            <select id="categoryFilter" class="filter-select">
+                                <option value="">All Categories</option>
+                                <option value="vegetables">Vegetables</option>
+                                <option value="fruits">Fruits</option>
+                                <option value="leafy">Leafy Vegetables</option>
+                            </select>
+                            <select id="locationFilter" class="filter-select">
+                                <option value="">All Locations</option>
+                                <option value="delhi">Delhi</option>
+                                <option value="mumbai">Mumbai</option>
+                                <option value="bangalore">Bangalore</option>
+                                <option value="hyderabad">Hyderabad</option>
+                                <option value="chennai">Chennai</option>
+                                <option value="kolkata">Kolkata</option>
+                            </select>
+                            <select id="qualityFilter" class="filter-select">
+                                <option value="">All Quality</option>
+                                <option value="premium">Premium</option>
+                                <option value="medium">Medium</option>
+                                <option value="low">Low</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product Marketplace Grid -->
+                <div class="marketplace-grid" id="marketplaceGrid">
+                    <!-- Products will be populated here -->
+                </div>
+                
+                <!-- Shopping Cart Sidebar -->
+                <div class="cart-sidebar" id="cartSidebar">
+                    <div class="cart-header">
+                        <h3>🛒 Your Cart</h3>
+                        <button class="cart-close" id="cartClose">✕</button>
+                    </div>
+                    <div class="cart-items" id="cartItems">
+                        <!-- Cart items will be populated here -->
+                    </div>
+                    <div class="cart-summary" id="cartSummary">
+                        <div class="cart-total">
+                            <span>Total: ₹<span id="cartTotal">0</span></span>
+                        </div>
+                        <button class="checkout-btn" id="checkoutBtn">Proceed to Payment</button>
+                    </div>
+                </div>
+                
+                <!-- Cart Toggle Button -->
+                <button class="cart-toggle" id="cartToggle">
+                    🛒 <span class="cart-count" id="cartCount">0</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Checkout Section -->
+        <section id="checkout" class="section checkout-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">💳 Checkout & Payment</h2>
+                    <p class="section-subtitle">Complete your purchase</p>
+                </div>
+                
+                <div class="checkout-container">
+                    <!-- Order Summary -->
+                    <div class="order-summary-card">
+                        <h3>📋 Order Summary</h3>
+                        <div id="checkoutItems" class="checkout-items">
+                            <!-- Checkout items will be populated here -->
+                        </div>
+                        <div class="order-total">
+                            <div class="total-row">
+                                <span>Subtotal:</span>
+                                <span>₹<span id="checkoutSubtotal">0</span></span>
+                            </div>
+                            <div class="total-row">
+                                <span>Delivery:</span>
+                                <span>₹<span id="deliveryCharge">50</span></span>
+                            </div>
+                            <div class="total-row final-total">
+                                <span>Total:</span>
+                                <span>₹<span id="checkoutTotal">0</span></span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Payment Form -->
+                    <div class="payment-form-card">
+                        <h3>💳 Payment Details</h3>
+                        <form id="paymentForm" class="payment-form">
+                            <div class="form-group">
+                                <label for="buyerName">Full Name</label>
+                                <input type="text" id="buyerName" placeholder="Enter your full name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="buyerPhone">Phone Number</label>
+                                <input type="tel" id="buyerPhone" placeholder="Enter your phone number" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="buyerAddress">Delivery Address</label>
+                                <textarea id="buyerAddress" placeholder="Enter your complete address" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="paymentMethod">Payment Method</label>
+                                <select id="paymentMethod" required>
+                                    <option value="">Select payment method</option>
+                                    <option value="upi">UPI Payment</option>
+                                    <option value="card">Credit/Debit Card</option>
+                                    <option value="cod">Cash on Delivery</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="payment-btn">Complete Payment</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Order Success Section -->
+        <section id="order-success" class="section success-section">
+            <div class="container">
+                <div class="success-card">
+                    <div class="success-icon">✅</div>
+                    <h2>Order Placed Successfully!</h2>
+                    <p>Your order has been confirmed and will be delivered soon.</p>
+                    <div class="order-details" id="orderDetails">
+                        <!-- Order details will be populated here -->
+                    </div>
+                    <div class="success-actions">
+                        <button class="view-invoice-btn" id="viewInvoiceBtn">📄 View Invoice</button>
+                        <button class="download-invoice-btn" id="downloadInvoiceBtn">📥 Download Invoice</button>
+                        <button class="continue-shopping-btn" id="continueShoppingBtn">🛒 Continue Shopping</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Price Discovery Section -->
+        <section id="price-discovery" class="section price-discovery-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">📍 Location-Wise Price Discovery</h2>
+                    <p class="section-subtitle">Compare prices across different locations</p>
+                </div>
+                
+                <!-- Price Map -->
+                <div class="price-map-card">
+                    <h3>🗺️ Price Comparison Map</h3>
+                    <div class="product-selector">
+                        <select id="priceMapProduct">
+                            <option value="tomato">Tomato</option>
+                            <option value="onion">Onion</option>
+                            <option value="potato">Potato</option>
+                            <option value="carrot">Carrot</option>
+                            <option value="cabbage">Cabbage</option>
+                        </select>
+                        <button id="updatePriceMap" class="update-btn">Update Prices</button>
+                    </div>
+                    <div id="priceMapResults" class="price-map-results">
+                        <!-- Price map will be populated here -->
+                    </div>
+                </div>
+                
+                <!-- AI Price Guidance -->
+                <div class="ai-guidance-card">
+                    <h3>🤖 AI Price Guidance</h3>
+                    <div id="aiGuidance" class="ai-guidance">
+                        <!-- AI guidance will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Voice Negotiation Section -->
+        <section id="voice-negotiation" class="section voice-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">🎤 Voice Negotiation</h2>
+                    <p class="section-subtitle">Negotiate using voice in your preferred language</p>
+                </div>
+                
+                <!-- Language Selection -->
+                <div class="language-card">
+                    <h3>🌐 Select Language</h3>
+                    <div class="language-grid">
+                        <button class="lang-btn active" data-lang="english">English</button>
+                        <button class="lang-btn" data-lang="hindi">हिंदी</button>
+                        <button class="lang-btn" data-lang="telugu">తెలుగు</button>
+                        <button class="lang-btn" data-lang="tamil">தமிழ்</button>
+                        <button class="lang-btn" data-lang="kannada">ಕನ್ನಡ</button>
+                        <button class="lang-btn" data-lang="malayalam">മലയാളം</button>
+                        <button class="lang-btn" data-lang="marathi">मराठी</button>
+                        <button class="lang-btn" data-lang="odia">ଓଡ଼ିଆ</button>
+                        <button class="lang-btn" data-lang="tulu">ತುಳು</button>
+                    </div>
+                </div>
+                
+                <!-- Voice Interface -->
+                <div class="voice-interface-card">
+                    <h3>🎙️ Voice Interface</h3>
+                    <div class="voice-controls">
+                        <button id="startVoiceBtn" class="voice-btn">
+                            <span class="voice-icon">🎤</span>
+                            <span>Start Voice Input</span>
+                        </button>
+                        <div id="voiceStatus" class="voice-status">Ready to listen...</div>
+                    </div>
+                    <div id="voiceTranscript" class="voice-transcript">
+                        <!-- Voice transcript will appear here -->
+                    </div>
+                </div>
+                
+                <!-- Negotiation Chat -->
+                <div class="negotiation-chat-card">
+                    <h3>💬 Negotiation Chat</h3>
+                    <div id="chatMessages" class="chat-messages">
+                        <!-- Chat messages will appear here -->
+                    </div>
+                    <div class="chat-input">
+                        <input type="text" id="chatInput" placeholder="Type your message or use voice...">
+                        <button id="sendChatBtn" class="send-btn">Send</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Digital Receipts Section -->
+        <section id="receipts" class="section receipts-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">🧾 Digital Receipts</h2>
+                    <p class="section-subtitle">View and manage your transaction receipts</p>
+                </div>
+                
+                <!-- Generate Receipt Demo -->
+                <div class="generate-receipt-card">
+                    <h3>📝 Generate Sample Receipt</h3>
+                    <button id="generateReceiptBtn" class="generate-btn">Generate Demo Receipt</button>
+                </div>
+                
+                <!-- Receipts List -->
+                <div class="receipts-list-card">
+                    <h3>📋 Your Receipts</h3>
+                    <div id="receiptsList" class="receipts-list">
+                        <!-- Receipts will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="section content-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title" data-translate="dashboard">Vendor Dashboard</h2>
+                    <p class="section-subtitle" data-translate="dashboardDesc">Complete overview of your trading activities</p>
+                </div>
+                
+                <!-- Location & Date Info -->
+                <div class="info-bar">
+                    <div class="info-item">
+                        <span class="info-icon">📍</span>
+                        <span class="info-text" id="dashboardLocation">Local Mandi</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-icon">📅</span>
+                        <span class="info-text" id="currentDate"></span>
+                    </div>
+                </div>
+                
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon saffron-bg">📊</div>
+                        <div class="stat-content">
+                            <h3 class="stat-number" id="totalTransactions">1,247</h3>
+                            <p class="stat-label" data-translate="totalTransactions">Total Transactions</p>
+                            <span class="stat-change positive">+12.5%</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon green-bg">💰</div>
+                        <div class="stat-content">
+                            <h3 class="stat-number" id="todayRevenue">₹45,600</h3>
+                            <p class="stat-label" data-translate="todayRevenue">Today's Revenue</p>
+                            <span class="stat-change positive">+8.2%</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon ashoka-bg">💬</div>
+                        <div class="stat-content">
+                            <h3 class="stat-number" id="activeNegotiations">23</h3>
+                            <p class="stat-label" data-translate="activeNegotiations">Active Negotiations</p>
+                            <span class="stat-change neutral">5 new</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon yellow-bg">⭐</div>
+                        <div class="stat-content">
+                            <h3 class="stat-number" id="avgRating">4.8</h3>
+                            <p class="stat-label" data-translate="avgRating">Average Rating</p>
+                            <span class="stat-change positive">156 reviews</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Quick Actions -->
+                <div class="quick-actions">
+                    <h3 class="subsection-title" data-translate="quickActions">Quick Actions</h3>
+                    <div class="action-grid">
+                        <button class="action-card" data-section="voice-price">
+                            <div class="action-icon saffron-bg">🎤</div>
+                            <div class="action-content">
+                                <h4 data-translate="voicePrice">Voice Price Check</h4>
+                                <p data-translate="instantPrices">Get instant prices</p>
+                            </div>
+                        </button>
+                        <button class="action-card" data-section="negotiation">
+                            <div class="action-icon ashoka-bg">💬</div>
+                            <div class="action-content">
+                                <h4 data-translate="negotiation">Negotiation Assistant</h4>
+                                <p data-translate="betterDeals">Better negotiations</p>
+                            </div>
+                        </button>
+                        <button class="action-card" data-section="inventory">
+                            <div class="action-icon green-bg">📦</div>
+                            <div class="action-content">
+                                <h4 data-translate="inventory">Upload Inventory</h4>
+                                <p data-translate="photoRecognition">Photo recognition</p>
+                            </div>
+                        </button>
+                        <button class="action-card" id="simulatePaymentBtn">
+                            <div class="action-icon purple-bg">🧾</div>
+                            <div class="action-content">
+                                <h4 data-translate="testReceipt">Test Digital Receipt</h4>
+                                <p data-translate="simulatePayment">Simulate payment</p>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Demand Insights -->
+                <div class="insights-section">
+                    <h3 class="subsection-title" data-translate="demandInsights">Market Demand Insights</h3>
+                    <div class="insights-grid" id="insightsGrid">
+                        <!-- Dynamic insights will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Voice Price Section -->
+        <section id="voice-price" class="section content-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title" data-translate="voicePrice">Voice Price Checker</h2>
+                    <p class="section-subtitle" data-translate="voicePrompt">Say product name to check price</p>
+                </div>
+                
+                <!-- Voice Interface -->
+                <div class="voice-interface">
+                    <!-- Language Selection -->
+                    <div class="voice-language-selector">
+                        <label for="voiceLanguageSelect" class="language-label" data-translate="selectLanguage">Select Voice Language:</label>
+                        <select class="voice-language-select" id="voiceLanguageSelect">
+                            <option value="english">English</option>
+                            <option value="hindi">हिंदी (Hindi)</option>
+                            <option value="telugu">తెలుగు (Telugu)</option>
+                            <option value="tamil">தமிழ் (Tamil)</option>
+                            <option value="kannada">ಕನ್ನಡ (Kannada)</option>
+                            <option value="malayalam">മലയാളം (Malayalam)</option>
+                            <option value="marathi">मराठी (Marathi)</option>
+                            <option value="odia">ଓଡ଼ିଆ (Odia)</option>
+                            <option value="tulu">ತುಳು (Tulu)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="voice-controls">
+                        <button class="voice-toggle" id="voiceToggle">
+                            <span class="voice-icon">🔊</span>
+                        </button>
+                        <span class="voice-status" data-translate="voiceEnabled">Voice Enabled</span>
+                    </div>
+                    
+                    <!-- Main Voice Button -->
+                    <div class="voice-main">
+                        <button class="voice-btn" id="voiceBtn">
+                            <span class="voice-btn-icon">🎤</span>
+                        </button>
+                        <p class="voice-status-text" id="voiceStatus" data-translate="speakNow">Tap to Speak</p>
+                        
+                        <!-- Transcript Display -->
+                        <div class="transcript" id="transcript" style="display: none;">
+                            <p class="transcript-text" id="transcriptText"></p>
+                        </div>
+                    </div>
+                    
+                    <!-- Clear Results Button -->
+                    <div class="voice-actions">
+                        <button class="btn btn-secondary" id="clearVoiceResults" style="display: none;">
+                            <span>🗑️</span>
+                            <span data-translate="clearResults">Clear Results</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Price Results -->
+                <div class="price-results" id="priceResults" style="display: none;">
+                    <!-- Location Info -->
+                    <div class="location-info">
+                        <div class="location-badge" id="locationBadge">
+                            <span class="location-icon">📍</span>
+                            <span class="location-text" id="currentLocationText">Delhi, India</span>
+                        </div>
+                    </div>
+                    
+                    <div class="price-header">
+                        <h3 class="price-product" id="priceProduct">Product</h3>
+                        <div class="price-trend" id="priceTrend">
+                            <span class="trend-icon">📈</span>
+                            <span class="trend-text">Rising</span>
+                        </div>
+                    </div>
+                    
+                    <div class="price-grid">
+                        <div class="price-card min-price">
+                            <h4 data-translate="minPrice">Minimum Price</h4>
+                            <p class="price-value" id="minPriceValue">₹25</p>
+                            <span class="price-unit">per kg</span>
+                            <div class="price-source">Local Mandi</div>
+                        </div>
+                        <div class="price-card fair-price">
+                            <h4 data-translate="fairPrice">Fair Price</h4>
+                            <p class="price-value" id="fairPriceValue">₹30</p>
+                            <span class="price-unit">per kg</span>
+                            <div class="price-source">Average Market</div>
+                        </div>
+                        <div class="price-card max-price">
+                            <h4 data-translate="maxPrice">Maximum Price</h4>
+                            <p class="price-value" id="maxPriceValue">₹35</p>
+                            <span class="price-unit">per kg</span>
+                            <div class="price-source">Premium Quality</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Market Intelligence -->
+                    <div class="market-intelligence">
+                        <div class="market-info-card">
+                            <div class="market-info-header">
+                                <span class="market-icon">📊</span>
+                                <h4 data-translate="marketIntelligence">Market Intelligence</h4>
+                            </div>
+                            <div class="market-details">
+                                <div class="market-detail">
+                                    <span class="detail-label" data-translate="demand">Demand:</span>
+                                    <span class="detail-value" id="demandLevel">High</span>
+                                    <span class="detail-indicator demand-high">↗️</span>
+                                </div>
+                                <div class="market-detail">
+                                    <span class="detail-label" data-translate="supply">Supply:</span>
+                                    <span class="detail-value" id="supplyLevel">Medium</span>
+                                    <span class="detail-indicator supply-medium">➡️</span>
+                                </div>
+                                <div class="market-detail">
+                                    <span class="detail-label" data-translate="season">Season:</span>
+                                    <span class="detail-value" id="seasonalFactor">Peak</span>
+                                    <span class="detail-indicator seasonal-peak">🌟</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="negotiation-tips-card">
+                            <div class="tips-header">
+                                <span class="tips-icon">💡</span>
+                                <h4 data-translate="negotiationTips">Negotiation Tips</h4>
+                            </div>
+                            <div class="tips-content" id="negotiationTipsContent">
+                                <p data-translate="negotiationTip">Start negotiating at ₹28 per kg based on current market conditions.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="price-info">
+                        <p class="price-update" data-translate="lastUpdated">Last updated: Just now</p>
+                        <p class="price-location" id="priceLocation">Location: Local Mandi</p>
+                    </div>
+                    
+                    <!-- Quick Actions -->
+                    <div class="price-actions">
+                        <button class="btn btn-primary" id="startNegotiationBtn">
+                            <span>💬</span>
+                            <span data-translate="startNegotiation">Start Negotiation</span>
+                        </button>
+                        <button class="btn btn-secondary" id="sharePrice">
+                            <span>📤</span>
+                            <span data-translate="sharePrice">Share Price</span>
+                        </button>
+                        <button class="btn btn-secondary" id="savePriceAlert">
+                            <span>🔔</span>
+                            <span data-translate="setPriceAlert">Set Price Alert</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Search History -->
+                <div class="search-history" id="searchHistory">
+                    <h3 class="subsection-title" data-translate="recentSearches">Recent Searches</h3>
+                    <div class="history-grid" id="historyGrid">
+                        <!-- Dynamic history items will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Negotiation Section -->
+        <section id="negotiation" class="section content-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title" data-translate="negotiation">AI Negotiation Assistant</h2>
+                    <p class="section-subtitle" data-translate="negotiationDesc">Get better negotiation advice with AI assistance</p>
+                </div>
+                
+                <!-- Current Product Info -->
+                <div class="negotiation-product" id="negotiationProduct" style="display: none;">
+                    <div class="product-info">
+                        <div class="product-icon">📦</div>
+                        <div class="product-details">
+                            <h3 class="product-name" id="negProductName">Product</h3>
+                            <p class="product-price" id="negProductPrice">Market Price: ₹25 - ₹35</p>
+                        </div>
+                    </div>
+                    <div class="fair-price-display">
+                        <p class="fair-price-value" id="negFairPrice">₹30</p>
+                        <span data-translate="fairPrice">Fair Price</span>
+                    </div>
+                </div>
+                
+                <!-- Chat Interface -->
+                <div class="chat-container">
+                    <div class="chat-messages" id="chatMessages">
+                        <div class="message bot-message">
+                            <div class="message-avatar">🤖</div>
+                            <div class="message-content">
+                                <p data-translate="welcomeMessage">Hello! I'm your negotiation assistant. Please tell me which product you want to negotiate for?</p>
+                                <span class="message-time" id="welcomeTime"></span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Quick Suggestions -->
+                    <div class="quick-suggestions" id="quickSuggestions">
+                        <span class="suggestion-label" data-translate="suggestions">Suggestions:</span>
+                        <button class="suggestion-btn" data-suggestion="potato">Potato</button>
+                        <button class="suggestion-btn" data-suggestion="onion">Onion</button>
+                        <button class="suggestion-btn" data-suggestion="tomato">Tomato</button>
+                    </div>
+                    
+                    <!-- Input Area -->
+                    <div class="chat-input">
+                        <input type="text" class="message-input" id="messageInput" data-translate-placeholder="typeMessage" placeholder="Type your message...">
+                        <button class="send-btn" id="sendBtn">
+                            <span>📤</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Negotiation Tips -->
+                <div class="negotiation-tips">
+                    <h3 class="subsection-title" data-translate="negotiationTips">Negotiation Tips</h3>
+                    <div class="tips-grid">
+                        <div class="tip-card">
+                            <div class="tip-icon">💰</div>
+                            <p data-translate="tip1">Always negotiate based on current market prices</p>
+                        </div>
+                        <div class="tip-card">
+                            <div class="tip-icon">📈</div>
+                            <p data-translate="tip2">Consider the quality of the product</p>
+                        </div>
+                        <div class="tip-card">
+                            <div class="tip-icon">🤝</div>
+                            <p data-translate="tip3">Use polite and respectful language</p>
+                        </div>
+                        <div class="tip-card">
+                            <div class="tip-icon">⏰</div>
+                            <p data-translate="tip4">Be patient and don't rush the negotiation</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Inventory Section -->
+        <section id="inventory" class="section content-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title" data-translate="inventory">Inventory Upload</h2>
+                    <p class="section-subtitle" data-translate="inventoryDesc">Take or upload photos to identify products and check quality</p>
+                </div>
+                
+                <div class="inventory-grid">
+                    <!-- Upload Section -->
+                    <div class="upload-section">
+                        <div class="upload-card">
+                            <h3 class="card-title" data-translate="uploadPhoto">Upload Photo</h3>
+                            
+                            <div class="upload-options" id="uploadOptions">
+                                <!-- Camera Option -->
+                                <button class="upload-option camera-option" id="cameraBtn">
+                                    <div class="option-icon">📷</div>
+                                    <h4 data-translate="takePhoto">Take Photo with Camera</h4>
+                                    <p data-translate="captureInstantly">Capture instantly</p>
+                                </button>
+                                
+                                <!-- Gallery Option -->
+                                <button class="upload-option gallery-option" id="galleryBtn">
+                                    <div class="option-icon">🖼️</div>
+                                    <h4 data-translate="chooseGallery">Choose from Gallery</h4>
+                                    <p data-translate="uploadFile">Upload file</p>
+                                </button>
+                                
+                                <!-- Hidden File Inputs -->
+                                <input type="file" id="cameraInput" accept="image/*" capture="environment" style="display: none;">
+                                <input type="file" id="galleryInput" accept="image/*" style="display: none;">
+                            </div>
+                            
+                            <!-- Image Preview -->
+                            <div class="image-preview" id="imagePreview" style="display: none;">
+                                <img id="previewImage" alt="Selected product">
+                                <button class="remove-image" id="removeImage">✕</button>
+                                <button class="analyze-btn" id="analyzeBtn" data-translate="analyzePhoto">Analyze Photo</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Analysis Results -->
+                        <div class="analysis-results" id="analysisResults" style="display: none;">
+                            <h3 class="card-title" data-translate="analysisResults">Analysis Results</h3>
+                            
+                            <!-- Product Identification -->
+                            <div class="result-section">
+                                <h4 data-translate="productIdentification">Product Identification</h4>
+                                <div class="product-result">
+                                    <div class="product-details">
+                                        <h5 class="product-name" id="identifiedProduct">Product Name</h5>
+                                        <p class="confidence" id="confidenceLevel">Confidence: 92%</p>
+                                    </div>
+                                    <div class="rating-stars" id="ratingStars">
+                                        ⭐⭐⭐⭐⭐
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Quality Assessment -->
+                            <div class="result-section">
+                                <h4 data-translate="qualityAssessment">Quality Assessment</h4>
+                                <div class="quality-result">
+                                    <span class="quality-grade" id="qualityGrade">Grade A</span>
+                                    <p class="quality-description" id="qualityDescription">Fresh and good quality product suitable for market.</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Action Buttons -->
+                            <div class="result-actions">
+                                <button class="btn btn-primary" data-translate="addToInventory">Add to Inventory</button>
+                                <button class="btn btn-secondary" data-translate="checkPrice">Check Price</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- History Section -->
+                    <div class="history-section">
+                        <div class="history-card">
+                            <h3 class="card-title" data-translate="recentRecognition">Recent Recognition</h3>
+                            <div class="recognition-history" id="recognitionHistory">
+                                <!-- Dynamic history items will be loaded here -->
+                            </div>
+                        </div>
+                        
+                        <!-- Tips Section -->
+                        <div class="tips-card">
+                            <h3 class="card-title" data-translate="tipsForBetter">Tips for Better Results</h3>
+                            <ul class="tips-list">
+                                <li data-translate="tip1Photo">Take clear photos in good lighting</li>
+                                <li data-translate="tip2Photo">Show the product up close</li>
+                                <li data-translate="tip3Photo">Photograph one product at a time</li>
+                                <li data-translate="tip4Photo">Place product on clean background</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- History Section -->
+        <section id="history" class="section content-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title" data-translate="history">Transaction History & Digital Receipts</h2>
+                    <p class="section-subtitle" data-translate="historyDesc">Detailed record of all your transactions and receipts</p>
+                </div>
+                
+                <!-- History Tabs -->
+                <div class="history-tabs">
+                    <button class="tab-btn active" data-tab="transactions" data-translate="transactions">Transactions</button>
+                    <button class="tab-btn" data-tab="receipts" data-translate="digitalReceipts">Digital Receipts</button>
+                </div>
+                
+                <!-- Transactions Tab -->
+                <div class="tab-content active" id="transactionsTab">
+                    <!-- Summary Stats -->
+                    <div class="history-stats">
+                        <div class="stat-item">
+                            <div class="stat-icon">📊</div>
+                            <div class="stat-info">
+                                <h3 id="historyTotalTransactions">156</h3>
+                                <p data-translate="totalTransactions">Total Transactions</p>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-icon">💰</div>
+                            <div class="stat-info">
+                                <h3 id="historyTotalRevenue">₹2,45,600</h3>
+                                <p data-translate="totalRevenue">Total Revenue</p>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-icon">✅</div>
+                            <div class="stat-info">
+                                <h3 id="historyCompleted">142</h3>
+                                <p data-translate="completed">Completed</p>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-icon">⏳</div>
+                            <div class="stat-info">
+                                <h3 id="historyPending">14</h3>
+                                <p data-translate="pending">Pending</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Filters -->
+                    <div class="history-filters">
+                        <div class="filter-group">
+                            <input type="text" class="search-input" id="historySearch" data-translate-placeholder="searchTransactions" placeholder="Search transactions...">
+                            <select class="filter-select" id="statusFilter">
+                                <option value="all" data-translate="allStatus">All Status</option>
+                                <option value="completed" data-translate="completed">Completed</option>
+                                <option value="pending" data-translate="pending">Pending</option>
+                                <option value="cancelled" data-translate="cancelled">Cancelled</option>
+                            </select>
+                            <select class="filter-select" id="dateFilter">
+                                <option value="all" data-translate="allDates">All Dates</option>
+                                <option value="today" data-translate="today">Today</option>
+                                <option value="week" data-translate="thisWeek">This Week</option>
+                                <option value="month" data-translate="thisMonth">This Month</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Transactions List -->
+                    <div class="transactions-list" id="transactionsList">
+                        <!-- Dynamic transaction items will be loaded here -->
+                    </div>
+                </div>
+                
+                <!-- Digital Receipts Tab -->
+                <div class="tab-content" id="receiptsTab">
+                    <!-- Receipts Stats -->
+                    <div class="receipts-stats">
+                        <div class="stat-item">
+                            <div class="stat-icon">🧾</div>
+                            <div class="stat-info">
+                                <h3 id="totalReceipts">142</h3>
+                                <p data-translate="totalReceipts">Total Receipts</p>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-icon">📱</div>
+                            <div class="stat-info">
+                                <h3 id="digitalReceipts">142</h3>
+                                <p data-translate="digitalReceipts">Digital Receipts</p>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-icon">📤</div>
+                            <div class="stat-info">
+                                <h3 id="sharedReceipts">89</h3>
+                                <p data-translate="sharedReceipts">Shared Receipts</p>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-icon">📥</div>
+                            <div class="stat-info">
+                                <h3 id="downloadedReceipts">67</h3>
+                                <p data-translate="downloadedReceipts">Downloaded</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Receipt Filters -->
+                    <div class="receipt-filters">
+                        <div class="filter-group">
+                            <input type="text" class="search-input" id="receiptSearch" data-translate-placeholder="searchReceipts" placeholder="Search receipts...">
+                            <select class="filter-select" id="receiptDateFilter">
+                                <option value="all" data-translate="allDates">All Dates</option>
+                                <option value="today" data-translate="today">Today</option>
+                                <option value="week" data-translate="thisWeek">This Week</option>
+                                <option value="month" data-translate="thisMonth">This Month</option>
+                            </select>
+                            <select class="filter-select" id="receiptLocationFilter">
+                                <option value="all" data-translate="allLocations">All Locations</option>
+                                <option value="current" data-translate="currentLocation">Current Location</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Receipts Grid -->
+                    <div class="receipts-grid" id="receiptsGrid">
+                        <!-- Dynamic receipt items will be loaded here -->
+                    </div>
+                </div>
+                
+                <!-- Receipt Modal -->
+                <div class="modal" id="receiptModal" style="display: none;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 data-translate="digitalReceipt">Digital Receipt</h3>
+                            <button class="modal-close" id="closeReceipt">✕</button>
+                        </div>
+                        <div class="modal-body" id="receiptContent">
+                            <!-- Receipt content will be generated here -->
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" id="closeReceiptBtn" data-translate="close">Close</button>
+                            <button class="btn btn-primary" id="downloadReceipt">
+                                <span>📥</span>
+                                <span data-translate="download">Download</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner">
+            <div class="spinner-ring"></div>
+            <p class="loading-text">Loading Viksit Vaani – SwarVyapaar...</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/translations.js"></script>
+    <script src="js/voiceManager.js"></script>
+    <script src="js/republicDayEffects.js"></script>
+    <script src="js/realDataFetch.js"></script>
+    <script src="js/tricolorBackground.js"></script>
+    <script src="js/interactionEffects.js"></script>
+    <script src="js/main.js"></script>
+    
+    <!-- Initialize Language System -->
+    <script>
+        // Initialize the language system when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize language manager
+            if (window.languageManager) {
+                window.languageManager.init();
+                console.log('🌐 Language system initialized');
+            }
+            
+            // Initialize voice manager
+            if (window.voiceManager) {
+                console.log('🎤 Voice system initialized');
+            }
+            
+            // Set up language synchronization
+            if (window.languageManager && window.voiceManager) {
+                window.languageManager.addObserver((language) => {
+                    console.log(`🔄 Language changed to: ${language}`);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

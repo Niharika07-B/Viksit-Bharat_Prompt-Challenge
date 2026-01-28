@@ -1,0 +1,44 @@
+{
+  "project": {
+    "name": "Viksit Vaani – SwarVyapaar",
+    "version": "1.0.0",
+    "description": "Empowering Bharat's Trade Through Voice & AI - The Multilingual Mandi creating a real-time linguistic bridge for local trade",
+    "type": "web-application",
+    "framework": "react",
+    "theme": "republic-day-viksit-bharat"
+  },
+  "build": {
+    "target": "web",
+    "outputDir": "dist",
+    "publicDir": "public",
+    "srcDir": "src"
+  },
+  "features": {
+    "voice-recognition": true,
+    "multilingual": true,
+    "ai-negotiation": true,
+    "price-discovery": true,
+    "inventory-recognition": true
+  },
+  "languages": [
+    "english",
+    "hindi", 
+    "telugu",
+    "kannada",
+    "malayalam",
+    "tamil",
+    "tulu",
+    "marathi",
+    "odia"
+  ],
+  "ai": {
+    "provider": "google-gemini",
+    "features": ["translation", "negotiation", "price-analysis", "demand-prediction"]
+  },
+  "deployment": {
+    "platform": "firebase",
+    "hosting": true,
+    "database": "firestore",
+    "auth": true
+  }
+}

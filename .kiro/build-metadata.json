@@ -1,0 +1,26 @@
+{
+  "buildId": "swar-vyapaar-v1.0.0",
+  "timestamp": "2026-01-26T00:00:00Z",
+  "environment": "development",
+  "hackathon": {
+    "eligible": true,
+    "theme": "Republic Day 2026 - Viksit Bharat",
+    "category": "AI-Powered Local Commerce"
+  },
+  "tech-stack": {
+    "frontend": ["React", "Tailwind CSS", "JavaScript"],
+    "backend": ["Firebase", "Firestore"],
+    "ai": ["Google Gemini API"],
+    "voice": ["Web Speech API"],
+    "deployment": ["Firebase Hosting"]
+  },
+  "features-implemented": [
+    "voice-first-interface",
+    "multilingual-support",
+    "ai-price-discovery", 
+    "negotiation-assistant",
+    "inventory-recognition",
+    "demand-insights",
+    "digital-receipts"
+  ]
+}

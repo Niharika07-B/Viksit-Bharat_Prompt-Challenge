@@ -1,0 +1,33 @@
+{
+    "name": "Viksit Vaani – SwarVyapaar",
+    "short_name": "SwarVyapaar",
+    "description": "Empowering Bharat's Trade Through Voice & AI - The Multilingual Mandi",
+    "theme_color": "#ff9933",
+    "background_color": "#ffffff",
+    "display": "standalone",
+    "orientation": "portrait",
+    "start_url": "/",
+    "scope": "/",
+    "lang": "en-IN",
+    "icons": [
+        {
+            "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDE5MiAxOTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxOTIiIGhlaWdodD0iNjQiIGZpbGw9IiNmZjk5MzMiLz4KPHJlY3QgeT0iNjQiIHdpZHRoPSIxOTIiIGhlaWdodD0iNjQiIGZpbGw9IiNmZmZmZmYiLz4KPHJlY3QgeT0iMTI4IiB3aWR0aD0iMTkyIiBoZWlnaHQ9IjY0IiBmaWxsPSIjMTM4ODA4Ii8+CjxjaXJjbGUgY3g9Ijk2IiBjeT0iOTYiIHI9IjI0IiBzdHJva2U9IiMzYjgyZjYiIHN0cm9rZS13aWR0aD0iNCIgZmlsbD0ibm9uZSIvPgo8L3N2Zz4K",
+            "sizes": "192x192",
+            "type": "image/svg+xml"
+        },
+        {
+            "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgdmlld0JveD0iMCAwIDUxMiA1MTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI1MTIiIGhlaWdodD0iMTcwLjY3IiBmaWxsPSIjZmY5OTMzIi8+CjxyZWN0IHk9IjE3MC42NyIgd2lkdGg9IjUxMiIgaGVpZ2h0PSIxNzAuNjciIGZpbGw9IiNmZmZmZmYiLz4KPHJlY3QgeT0iMzQxLjMzIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjE3MC42NyIgZmlsbD0iIzEzODgwOCIvPgo8Y2lyY2xlIGN4PSIyNTYiIGN5PSIyNTYiIHI9IjY0IiBzdHJva2U9IiMzYjgyZjYiIHN0cm9rZS13aWR0aD0iMTAiIGZpbGw9Im5vbmUiLz4KPHN2Zz4K",
+            "sizes": "512x512",
+            "type": "image/svg+xml"
+        }
+    ],
+    "categories": ["business", "productivity", "utilities"],
+    "screenshots": [
+        {
+            "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIwIiBoZWlnaHQ9IjU2OCIgdmlld0JveD0iMCAwIDMyMCA1NjgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMjAiIGhlaWdodD0iNTY4IiBmaWxsPSIjZjlmYWZiIi8+Cjx0ZXh0IHg9IjE2MCIgeT0iMjg0IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiMzNzQxNTEiPlZpa3NpdCBWYWFuaTwvdGV4dD4KPHN2Zz4K",
+            "sizes": "320x568",
+            "type": "image/svg+xml",
+            "form_factor": "narrow"
+        }
+    ]
+}
