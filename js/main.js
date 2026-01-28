@@ -780,11 +780,15 @@ const App = {
             });
         });
         
-        // Voice button
+        // Voice button - Use VoiceManager instead of local implementation
         const voiceBtn = document.getElementById('mainVoiceBtn');
         if (voiceBtn) {
             voiceBtn.addEventListener('click', () => {
-                this.startVoiceRecognition();
+                if (window.voiceManager) {
+                    window.voiceManager.startListening();
+                } else {
+                    console.warn('VoiceManager not available');
+                }
             });
         }
         
@@ -792,7 +796,11 @@ const App = {
         const replayBtn = document.getElementById('voiceReplayBtn');
         if (replayBtn) {
             replayBtn.addEventListener('click', () => {
-                this.replayResponse();
+                if (window.voiceManager) {
+                    window.voiceManager.replayLastResponse();
+                } else {
+                    this.replayResponse();
+                }
             });
         }
         

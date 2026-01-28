@@ -32,6 +32,9 @@ class VoiceManager {
             });
             this.setLanguage(window.languageManager.getCurrentLanguage());
         }
+        
+        // Initialize history display
+        this.updateHistoryDisplay();
     }
     
     // Setup speech recognition
@@ -44,12 +47,16 @@ class VoiceManager {
             this.recognition.interimResults = true;
             this.recognition.maxAlternatives = 1;
             
+            console.log('Speech recognition initialized successfully');
+            
             this.recognition.onstart = () => {
+                console.log('Speech recognition started');
                 this.isListening = true;
                 this.updateVoiceStatus('listening');
             };
             
             this.recognition.onresult = (event) => {
+                console.log('Speech recognition result received:', event);
                 let transcript = '';
                 for (let i = event.resultIndex; i < event.results.length; i++) {
                     transcript += event.results[i][0].transcript;
@@ -59,22 +66,45 @@ class VoiceManager {
                 this.updateTranscript(transcript, !event.results[event.results.length - 1].isFinal);
                 
                 if (event.results[event.results.length - 1].isFinal) {
+                    console.log('Final transcript:', transcript);
                     this.processVoiceInput(transcript);
                 }
             };
             
             this.recognition.onerror = (event) => {
-                console.error('Speech recognition error:', event.error);
+                console.error('Speech recognition error:', event.error, event);
                 this.isListening = false;
                 this.updateVoiceStatus('error');
+                
+                let errorMessage = 'Speech recognition error: ';
+                switch(event.error) {
+                    case 'no-speech':
+                        errorMessage += 'No speech detected. Please try again.';
+                        break;
+                    case 'audio-capture':
+                        errorMessage += 'Microphone not accessible. Please check permissions.';
+                        break;
+                    case 'not-allowed':
+                        errorMessage += 'Microphone permission denied. Please allow microphone access.';
+                        break;
+                    case 'network':
+                        errorMessage += 'Network error. Please check your connection.';
+                        break;
+                    default:
+                        errorMessage += event.error;
+                }
+                
+                this.showError(errorMessage);
             };
             
             this.recognition.onend = () => {
+                console.log('Speech recognition ended');
                 this.isListening = false;
                 this.updateVoiceStatus('ready');
             };
         } else {
-            console.warn('Speech recognition not supported');
+            console.warn('Speech recognition not supported in this browser');
+            this.showError('Speech recognition not supported in this browser');
         }
     }
     
@@ -113,11 +143,12 @@ class VoiceManager {
                 this.recognition.lang = config.speechCode;
             }
             
+            console.log('Starting voice recognition with language:', this.recognition.lang);
             this.recognition.start();
             return true;
         } catch (error) {
             console.error('Error starting speech recognition:', error);
-            this.showError('Could not start voice recognition');
+            this.showError('Could not start voice recognition: ' + error.message);
             return false;
         }
     }
@@ -429,7 +460,43 @@ class VoiceManager {
     // Show error message
     showError(message) {
         console.error('Voice Manager Error:', message);
-        // You can implement a toast notification here
+        
+        // Update voice status to show error
+        this.updateVoiceStatus('error');
+        
+        // Show error in transcript area
+        const transcriptElements = document.querySelectorAll('#transcript, #voiceTranscript, .voice-transcript-display');
+        transcriptElements.forEach(element => {
+            element.innerHTML = `
+                <div class="error-message">
+                    <div class="error-icon">⚠️</div>
+                    <div class="error-text">${message}</div>
+                </div>
+            `;
+            element.style.display = 'block';
+        });
+        
+        // Show toast notification
+        const errorDiv = document.createElement('div');
+        errorDiv.style.cssText = `
+            position: fixed; top: 20px; right: 20px; z-index: 9999;
+            background: #fef2f2; color: #dc2626; padding: 1rem; border-radius: 0.5rem;
+            border: 1px solid #fecaca; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            max-width: 300px; font-size: 14px; line-height: 1.4;
+        `;
+        errorDiv.innerHTML = `
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <span>🎤</span>
+                <span>${message}</span>
+            </div>
+        `;
+        document.body.appendChild(errorDiv);
+        
+        setTimeout(() => {
+            if (errorDiv.parentNode) {
+                errorDiv.remove();
+            }
+        }, 5000);
     }
     
     // Add to search history
