@@ -21,7 +21,7 @@ Built with the spirit of Republic Day and Viksit Bharat, this platform combines 
 - **Voice Response**: System responds in the same language with both text and optional voice
 
 ### 🤖 AI-Powered Core Features
-
+ 
 1. **Voice Price Discovery**
    - Instant market price lookup through voice commands
    - Real-time mandi price integration (Agmarknet-style)
