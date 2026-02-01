@@ -9,16 +9,20 @@
 
 A revolutionary voice-first, multilingual web platform designed for India's local market vendors, featuring AI-powered price discovery, negotiation assistance, and transparent trade decisions.
 
+---
+
 ## 🌟 Republic Day 2026 - Viksit Bharat Theme
 <img width="1024" height="367" alt="image" src="https://github.com/user-attachments/assets/a04e6c57-d72f-4246-80b4-1594272fdd1f" />
 
 
 Built with the spirit of Republic Day and Viksit Bharat, this platform combines traditional Indian market practices with cutting-edge AI technology to empower local vendors across India.
 
-## 🎯 Key Features
+---
+
+# 🎯 Key Features
 
 ### 🎤 Voice-First Multilingual Interface
-- **9 Indian Languages Supported**: English, Hindi, Telugu, Kannada, Malayalam, Tamil, Tulu, Marathi, Odia
+- **5 Indian Languages Supported**: English, Hindi, Telugu, Kannada, Tamil.
 - **Natural Speech Recognition**: Vendors can speak naturally ("Aaloo ka bhav kya hai?" "Ee onion rate entha?")
 - **Voice Response**: System responds in the same language with both text and optional voice
 
@@ -49,6 +53,9 @@ Built with the spirit of Republic Day and Viksit Bharat, this platform combines 
    - Transaction history tracking
    - Downloadable/shareable records
 
+ <img width="1470" height="919" alt="Screenshot 2026-02-01 at 22 57 16" src="https://github.com/user-attachments/assets/6aa513e2-e9ba-4422-84c7-142dfee0fc67" />
+---
+
 ## 🎨 Design Philosophy
 
 ### Republic Day Inspired UI
@@ -57,13 +64,19 @@ Built with the spirit of Republic Day and Viksit Bharat, this platform combines 
 - **Patriotic Elements**: Indian flag, tricolor particles, white doves
 - **Clean Government-Grade Design**: Professional, accessible, respectful
 
+
+![PHOTO-2026-02-01-23-00-24](https://github.com/user-attachments/assets/76802d45-7911-4eaa-bf74-f2f3c7113ff9)
+
 ### Mobile-First Approach
 - Optimized for low-end smartphones
 - Fast loading on slow networks
 - Large buttons and clear icons
 - Accessibility-friendly fonts and spacing
 
-## 🛠️ Technology Stack
+![PHOTO-2026-02-01-22-59-41](https://github.com/user-attachments/assets/b53d61ba-eebe-4c46-a636-64d0868192ef)
+
+---
+# 🛠️ Technology Stack
 
 ### Frontend
 - **Pure HTML5/CSS3/JavaScript** (No frameworks - optimized for performance)
@@ -84,7 +97,9 @@ Built with the spirit of Republic Day and Viksit Bharat, this platform combines 
 - **Geolocation API** for market location detection
 - **Mock Market Data** simulating real Agmarknet APIs
 
-## 🚀 Getting Started
+---
+
+# 🚀 Getting Started
 
 ### Prerequisites
 - Modern web browser with JavaScript enabled
@@ -125,7 +140,9 @@ Built with the spirit of Republic Day and Viksit Bharat, this platform combines 
 ### No Build Process Required
 This is a pure HTML/CSS/JavaScript application that runs directly in the browser without any build tools or compilation steps.
 
-## 📱 Usage Guide
+---
+
+# 📱 Usage Guide
 
 ### For Vendors
 
@@ -149,7 +166,8 @@ This is a pure HTML/CSS/JavaScript application that runs directly in the browser
    - Generate and download digital receipts
    - Track business performance
 
-## 🌐 Supported Languages
+---
+# 🌐 Supported Languages
 
 | Language | Native Name | Voice Support | UI Support |
 |----------|-------------|---------------|------------|
@@ -165,7 +183,8 @@ This is a pure HTML/CSS/JavaScript application that runs directly in the browser
 
 *Note: Tulu voice recognition falls back to English due to limited browser support*
 
-## 🏗️ Project Structure
+---
+# 🏗️ Project Structure
 
 ```
 Viksit-Bharat_Prompt-Challenge/
@@ -206,6 +225,7 @@ Viksit-Bharat_Prompt-Challenge/
 ├── package-lock.json        # Dependency lock file
 └── README.md                # This file
 ```
+---
 
 ## 🎯 Demo Features
 
@@ -247,8 +267,9 @@ const mockPriceData = {
     }
 };
 ```
+---
 
-## 🤝 Contributing
+# 🤝 Contributing
 
 1. Fork the repository
 2. Create feature branch (`git checkout -b feature/amazing-feature`)
@@ -256,23 +277,34 @@ const mockPriceData = {
 4. Push to branch (`git push origin feature/amazing-feature`)
 5. Open Pull Request
 
-## 📄 License
+---
+# 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🙏 Acknowledgments
+---
+# 🧑‍💻 Connect With Me  
+Hey! I'm Niharika B – Who loves building emotionally intelligent, visually rich applications ✨  
 
-- **Republic Day 2026** - Celebrating India's democratic values
-- **Viksit Bharat** - Supporting India's development vision
-- **Local Vendors** - The backbone of India's economy
-- **Open Source Community** - For amazing tools and libraries
+Let's connect and collaborate as diving into the ocean of knowledge brings nature and technology together 🚀:  
 
-## 📞 Support
-
-For support and queries:
-- 📧 Email: support@mandimitra.in
-- 📱 Phone: 1800-MANDI-AI
-- 🌐 Website: [mandimitra.in](https://mandimitra.in)
+<div align="center">
+  <a href="mailto:niharika.bandaru5002@gmail.com">
+    <img src="https://img.shields.io/badge/Email-EA4335?style=for-the-badge&logo=gmail&logoColor=white"/>
+  </a>
+  <a href="https://www.linkedin.com/in/bandaru-niharika/">
+    <img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white"/>
+  </a>
+  <a href="https://instagram.com/17_n.i.h.a.r.i.k.a_07">
+    <img src="https://img.shields.io/badge/Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white"/>
+  </a>
+  <a href="https://medium.com/@niharika.bandaru5002">
+    <img src="https://img.shields.io/badge/Medium-000000?style=for-the-badge&logo=medium&logoColor=white"/>
+  </a>
+  <a href="https://x.com/NihaNiharika777">
+    <img src="https://img.shields.io/badge/X-000000?style=for-the-badge&logo=x&logoColor=white"/>
+  </a>
+</div>
 
 ---
 
