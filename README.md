@@ -10,6 +10,8 @@
 A revolutionary voice-first, multilingual web platform designed for India's local market vendors, featuring AI-powered price discovery, negotiation assistance, and transparent trade decisions.
 
 ## 🌟 Republic Day 2026 - Viksit Bharat Theme
+<img width="1024" height="367" alt="image" src="https://github.com/user-attachments/assets/a04e6c57-d72f-4246-80b4-1594272fdd1f" />
+
 
 Built with the spirit of Republic Day and Viksit Bharat, this platform combines traditional Indian market practices with cutting-edge AI technology to empower local vendors across India.
 
