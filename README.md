@@ -1,13 +1,14 @@
-# 🇮🇳 Viksit Vaani – SwarVyapaar
+# 🇮🇳 Viksit Vaani – SwarVyapaar 
+Checkout here :- https://viskit-vaani-swar-vyapaar.netlify.app/
 
 **Empowering Bharat's Trade Through Voice & AI**
 
 *The Multilingual Mandi – creating a real-time linguistic bridge for local trade*
+A revolutionary voice-first, multilingual web platform designed for India's local market vendors, featuring AI-powered price discovery, negotiation assistance, and transparent trade decisions.
+
 
 <img width="1024" height="1024" alt="image" src="https://github.com/user-attachments/assets/daf3daad-04bb-40db-8457-1aa5c3672e9c" />
 
-
-A revolutionary voice-first, multilingual web platform designed for India's local market vendors, featuring AI-powered price discovery, negotiation assistance, and transparent trade decisions.
 
 ---
 
@@ -155,18 +156,33 @@ This is a pure HTML/CSS/JavaScript application that runs directly in the browser
    - Enter buyer's offered price
    - Get AI-powered counter-offer suggestions
    - Receive culturally appropriate responses
+  
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/04cf5d84-9404-464b-b4e2-7eea391d7e5c" width="45%" />
+  <img src="https://github.com/user-attachments/assets/1cc419ce-a180-4823-9823-bb9fabdbe2d4" width="45%" />
+</div>
+
 
 3. **Inventory Upload**
    - Take photo of products
    - Get AI identification and quality assessment
    - Add to inventory with auto-generated descriptions
+  
 
-4. **Transaction History**
+5. **Transaction History**
    - View all past transactions
    - Generate and download digital receipts
    - Track business performance
+  
+<div align="center">
+<img width="429" height="449" alt="Screenshot 2026-02-02 at 06 37 55" src="https://github.com/user-attachments/assets/c8b5eddc-8e18-4324-8c53-aa0ef4fb7391" />
+
+<img width="429" height="462" alt="Screenshot 2026-02-02 at 06 36 56" src="https://github.com/user-attachments/assets/327c15c9-fa2c-4c36-8a37-d4c0eaa09e17" />
+ 
+</div>
 
 ---
+
 # 🌐 Supported Languages
 
 | Language | Native Name | Voice Support | UI Support |
@@ -176,12 +192,6 @@ This is a pure HTML/CSS/JavaScript application that runs directly in the browser
 | Telugu | తెలుగు | ✅ | ✅ |
 | Tamil | தமிழ் | ✅ | ✅ |
 | Kannada | ಕನ್ನಡ | ✅ | ✅ |
-| Malayalam | മലയാളം | ✅ | ✅ |
-| Marathi | मराठी | ✅ | ✅ |
-| Odia | ଓଡ଼ିଆ | ✅ | ✅ |
-| Tulu | ತುಳು | ⚠️ | ✅ |
-
-*Note: Tulu voice recognition falls back to English due to limited browser support*
 
 ---
 # 🏗️ Project Structure
@@ -283,27 +293,46 @@ const mockPriceData = {
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
+
+# 💜 About Kiro 💜
+I’ve truly fallen in love with **Kiro** 💫 — it made building this project so much smoother and more intuitive.  
+From AI-assisted integrations to feature walkthroughs, **Kiro helped me at every step** — turning my ideas into reality faster than I imagined.  
+
+
+<img width="690" height="458" alt="image" src="https://github.com/user-attachments/assets/adb1a27c-41ee-4c65-9807-0489843b78a1" />
+
+
+If you haven’t explored it yet, I highly recommend giving it a try for your next project. 🚀  
+
+---
+
 # 🧑‍💻 Connect With Me  
 Hey! I'm Niharika B – Who loves building emotionally intelligent, visually rich applications ✨  
 
 Let's connect and collaborate as diving into the ocean of knowledge brings nature and technology together 🚀:  
 
 <div align="center">
+
   <a href="mailto:niharika.bandaru5002@gmail.com">
-    <img src="https://img.shields.io/badge/Email-EA4335?style=for-the-badge&logo=gmail&logoColor=white"/>
+    <img src="https://img.shields.io/badge/Email-FF9933?style=for-the-badge&logo=gmail&logoColor=white&labelColor=138808" />
   </a>
+  
   <a href="https://www.linkedin.com/in/bandaru-niharika/">
-    <img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white"/>
+    <img src="https://img.shields.io/badge/LinkedIn-FF9933?style=for-the-badge&logo=linkedin&logoColor=white&labelColor=138808" />
   </a>
+  
   <a href="https://instagram.com/17_n.i.h.a.r.i.k.a_07">
-    <img src="https://img.shields.io/badge/Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white"/>
+    <img src="https://img.shields.io/badge/Instagram-FF9933?style=for-the-badge&logo=instagram&logoColor=white&labelColor=138808" />
   </a>
+  
   <a href="https://medium.com/@niharika.bandaru5002">
-    <img src="https://img.shields.io/badge/Medium-000000?style=for-the-badge&logo=medium&logoColor=white"/>
+    <img src="https://img.shields.io/badge/Medium-FF9933?style=for-the-badge&logo=medium&logoColor=white&labelColor=138808" />
   </a>
+  
   <a href="https://x.com/NihaNiharika777">
-    <img src="https://img.shields.io/badge/X-000000?style=for-the-badge&logo=x&logoColor=white"/>
+    <img src="https://img.shields.io/badge/X-FF9933?style=for-the-badge&logo=x&logoColor=white&labelColor=138808" />
   </a>
+
 </div>
 
 ---
