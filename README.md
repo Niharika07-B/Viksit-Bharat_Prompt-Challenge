@@ -1,7 +1,7 @@
 # 🇮🇳 Viksit Vaani – SwarVyapaar 
 Checkout here :- https://viskit-vaani-swar-vyapaar.netlify.app/
 
-**Empowering Bharat's Trade Through Voice & AI**
+**Empowering Bharat's Trade Through Voice & AI** 
 
 *The Multilingual Mandi – creating a real-time linguistic bridge for local trade*
 A revolutionary voice-first, multilingual web platform designed for India's local market vendors, featuring AI-powered price discovery, negotiation assistance, and transparent trade decisions.
